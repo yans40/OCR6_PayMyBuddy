@@ -1,8 +1,8 @@
 package com.openclassrooms.paymybuddy.repository;
 
-import com.openclassrooms.paymybuddy.model.UserAcompte;
-import org.springframework.data.repository.CrudRepository;
+import com.openclassrooms.paymybuddy.entity.UserAcompte;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserAcompteRepository extends CrudRepository<UserAcompte,Integer> {
+public interface UserAcompteRepository extends JpaRepository<UserAcompte,Integer> {
 
 }

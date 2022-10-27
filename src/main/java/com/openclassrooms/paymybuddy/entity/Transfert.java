@@ -1,4 +1,4 @@
-package com.openclassrooms.paymybuddy.model;
+package com.openclassrooms.paymybuddy.entity;
 
 import javax.persistence.*;
 
@@ -16,5 +16,4 @@ public class Transfert {
     @Column
     private String date;
 
-// TODO CHECK THE TYPE OF OPERATION   private Boolean operation;
 }

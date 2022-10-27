@@ -1,4 +1,4 @@
-package com.openclassrooms.paymybuddy.model;
+package com.openclassrooms.paymybuddy.entity;
 
 import javax.persistence.*;
 
