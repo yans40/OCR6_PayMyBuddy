@@ -1,14 +1,9 @@
 package com.openclassrooms.paymybuddy.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "user_acompte")
 public class UserAcompte {
     @Id
@@ -24,6 +19,16 @@ public class UserAcompte {
     @Column
     private String password;
 
+    public UserAcompte() {
+    }
+
+    public UserAcompte(int id, Long solde, String name, String eMail, String password) {
+        this.id = id;
+        this.solde = solde;
+        this.name = name;
+        this.eMail = eMail;
+        this.password = password;
+    }
 
     public String geteMail() {
         return eMail;

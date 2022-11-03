@@ -15,13 +15,20 @@ public class UserAcompteController {
         return userAcompteService.saveUserAcompte(userAcompte);
     }
 
+    @GetMapping("/userAcompte/{id}")
+    public UserAcompte getUserById(@PathVariable int id){
+        return userAcompteService.getUserAcompteById(id);
+    }
+
     @DeleteMapping("/deleteUser/{id}")
     public UserAcompte deleteUser(@PathVariable int id){
        return userAcompteService.deleteUserAcompte(id);
     }
 
-    @GetMapping("/userAcompte/{id}")
-    public UserAcompte getUserById(@PathVariable int id){
-        return userAcompteService.getUserAcompte(id);
+
+
+    @PutMapping("/updateUserAcompte/id")
+    public UserAcompte updateById(@PathVariable int id){
+        return userAcompteService.updateUserAcompte(id);
     }
 }

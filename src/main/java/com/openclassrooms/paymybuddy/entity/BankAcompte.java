@@ -3,14 +3,14 @@ package com.openclassrooms.paymybuddy.entity;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "bank_acompte")
 public class BankAcompte {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer acompte_Id;
-
+    @Column
     private String Iban;
 
     public Integer getAcompte_Id() {
