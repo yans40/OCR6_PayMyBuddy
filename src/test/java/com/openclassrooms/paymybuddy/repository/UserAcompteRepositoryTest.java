@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -14,18 +15,20 @@ public class UserAcompteRepositoryTest {
     private UserAcompteRepository userAcompteRepository;
 
     @Test
-    void saveMethod(){
+    void saveMethodTest(){
         UserAcompte userAcompte = new UserAcompte();
+        userAcompte.setId(1);
+        userAcompte.setName("alexandre");
+        userAcompte.seteMail("alex@mail.fr");
+        userAcompte.setPassword("legrand");
+        userAcompte.setSolde(15000L);
 
-        userAcompte.setName("jules");
-        userAcompte.seteMail("jules@mail.fr");
-        userAcompte.setPassword("jules");
-        userAcompte.setSolde(2000l);
+        userAcompteRepository.save(userAcompte);
+        UserAcompte userAcompteSavedInDb = userAcompteRepository.findById(1).orElseThrow(NoSuchElementException::new);
 
-        UserAcompte userAcompteToTest = userAcompteRepository.save(userAcompte);
-
-        assertEquals("jules",userAcompteToTest.getName());
+        assertEquals("alex@mail.fr", userAcompteSavedInDb.geteMail());
 
     }
+
 
 }

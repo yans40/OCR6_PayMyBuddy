@@ -27,8 +27,9 @@ public class UserAcompteController {
 
 
 
-    @PutMapping("/updateUserAcompte/id")
-    public UserAcompte updateById(@PathVariable int id){
-        return userAcompteService.updateUserAcompte(id);
+    @PutMapping("/updateUserAcompte/{id}")
+    public UserAcompte updateById(@RequestBody UserAcompte userAcompte, @PathVariable int id){
+
+        return userAcompteService.updateUserAcompte(userAcompte,id);
     }
 }
