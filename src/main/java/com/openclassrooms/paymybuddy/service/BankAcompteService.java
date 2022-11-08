@@ -5,6 +5,8 @@ import com.openclassrooms.paymybuddy.repository.BankAcompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class BankAcompteService {
 
@@ -15,7 +17,7 @@ public class BankAcompteService {
     }
 
     public BankAcompte getBankAcompteById(int id) {
-        return bankAcompteRepository.findById(id).get();
+        return bankAcompteRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     public BankAcompte deleteBankAcompteById(int id){

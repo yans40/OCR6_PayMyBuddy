@@ -5,6 +5,8 @@ import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class TransactionService {
     @Autowired
@@ -18,7 +20,7 @@ public class TransactionService {
 
     public Transaction getTransactionById(int id){
 
-        return transactionRepository.findById(id).get();
+        return transactionRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     public Transaction deleteTransaction(int id){

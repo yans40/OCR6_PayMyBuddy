@@ -5,6 +5,8 @@ import com.openclassrooms.paymybuddy.service.UserAcompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class UserAcompteController {
     @Autowired
@@ -20,6 +22,10 @@ public class UserAcompteController {
         return userAcompteService.getUserAcompteById(id);
     }
 
+    @GetMapping("/UserAcomptes")
+    public List<UserAcompte> getUsersList(){
+        return userAcompteService.getUserAcompteList();
+    }
     @DeleteMapping("/deleteUser/{id}")
     public UserAcompte deleteUser(@PathVariable int id){
        return userAcompteService.deleteUserAcompte(id);

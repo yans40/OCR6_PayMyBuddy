@@ -2,9 +2,12 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.UserAcompte;
 import com.openclassrooms.paymybuddy.repository.UserAcompteRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -13,8 +16,14 @@ public class UserAcompteService {
   private UserAcompteRepository userAcompteRepository;
 
 
-    public UserAcompte saveUserAcompte(UserAcompte userAcompte) {
-        return userAcompteRepository.save(userAcompte);
+    public UserAcompte saveUserAcompte(UserAcompte userAcompteReceive) {
+        List<UserAcompte> userAcompteList = getUserAcompteList();
+        for(UserAcompte userAcompte:userAcompteList){
+            if(userAcompte.geteMail().equals(userAcompteReceive.geteMail()) && userAcompte.getPassword().equals(userAcompteReceive.getPassword())){
+                return null;
+            }
+        }
+        return userAcompteRepository.save(userAcompteReceive);
     }
 
     public UserAcompte getUserAcompteById(int id){
@@ -26,7 +35,7 @@ public class UserAcompteService {
         return null;
     }
 
-    public UserAcompte updateUserAcompte(UserAcompte userAcompteReceive, int id) {
+    public UserAcompte updateUserAcompte(@NotNull UserAcompte userAcompteReceive, int id) {
 
         UserAcompte userAcompteToUpdate = getUserAcompteById(id);
 
@@ -37,4 +46,9 @@ public class UserAcompteService {
 
         return userAcompteRepository.save(userAcompteToUpdate);
     }
+
+     public List<UserAcompte> getUserAcompteList(){
+
+        return userAcompteRepository.findAll();
+     }
 }

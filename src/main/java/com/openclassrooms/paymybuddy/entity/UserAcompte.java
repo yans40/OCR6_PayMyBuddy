@@ -22,8 +22,7 @@ public class UserAcompte {
     public UserAcompte() {
     }
 
-    public UserAcompte(int id, Long solde, String name, String eMail, String password) {
-        this.id = id;
+    public UserAcompte(Long solde, String name, String eMail, String password) {
         this.solde = solde;
         this.name = name;
         this.eMail = eMail;
