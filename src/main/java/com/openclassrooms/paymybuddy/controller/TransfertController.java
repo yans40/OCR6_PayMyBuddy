@@ -18,7 +18,7 @@ public class TransfertController {
 
     @GetMapping("/transfert/{id}")
     public Transfert getTransfertById(@PathVariable int id) {
-        return transfertService.getTransactionById(id);
+        return transfertService.getTransfertById(id);
     }
 
     @DeleteMapping("/deleteTransfert/{id}")

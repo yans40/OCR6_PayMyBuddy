@@ -1,6 +1,9 @@
 package com.openclassrooms.paymybuddy.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -14,7 +17,20 @@ public class Transfert {
     @Column
     private Integer montant;
     @Column
+
     private String date;
+
+
+
+    public Transfert() {
+
+    }
+
+    public Transfert(String description, Integer montant, String date) {
+        this.description = description;
+        this.montant = montant;
+        this.date = date;
+    }
 
     public Integer getId() {
         return id;

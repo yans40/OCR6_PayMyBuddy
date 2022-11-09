@@ -17,14 +17,13 @@ public class UserAcompteRepositoryTest {
     @Test
     void saveMethodTest(){
         UserAcompte userAcompte = new UserAcompte();
-        userAcompte.setId(1);
         userAcompte.setName("alexandre");
         userAcompte.seteMail("alex@mail.fr");
         userAcompte.setPassword("legrand");
         userAcompte.setSolde(15000L);
 
         userAcompteRepository.save(userAcompte);
-        UserAcompte userAcompteSavedInDb = userAcompteRepository.findById(1).orElseThrow(NoSuchElementException::new);
+        UserAcompte userAcompteSavedInDb = userAcompteRepository.findById(userAcompte.getId()).orElseThrow(NoSuchElementException::new);
 
         assertEquals("alex@mail.fr", userAcompteSavedInDb.geteMail());
 

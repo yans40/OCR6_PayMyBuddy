@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class UserAcompteServiceTest {
 
     @Autowired
-    UserAcompteService userAcompteService;
+    private UserAcompteService userAcompteService;
 
     @Autowired
     private UserAcompteRepository userAcompteRepository;
@@ -49,15 +49,15 @@ class UserAcompteServiceTest {
     void updateServiceMethodTest() {
 
         //ARRANGE
-        UserAcompte userAcompteToSave = new UserAcompte(5000L, "alexandre", "alexlegrand@mail.com", "lepasse");
+        UserAcompte userAcompte = new UserAcompte(5000L, "alexandre", "alexlegrand@mail.com", "lepasse");
 
         UserAcompte updatedUser = new UserAcompte(600L, "alexandre", "jeannewmail@mail.com", "newmotdepasse");
 
-        UserAcompte userAcompteSaved = userAcompteService.saveUserAcompte(userAcompteToSave);
+        UserAcompte userAcompteSaved = userAcompteService.saveUserAcompte(userAcompte);
         //ACT
-        userAcompteService.updateUserAcompte(updatedUser, userAcompteSaved.getId());
+        UserAcompte userAcompteUpdated = userAcompteService.updateUserAcompte(updatedUser, userAcompteSaved.getId());
         //ASSERT
-        assertEquals("jeannewmail@mail.com", userAcompteService.getUserAcompteById(userAcompteSaved.getId()).geteMail());
+        assertEquals("jeannewmail@mail.com", userAcompteService.getUserAcompteById(userAcompteUpdated.getId()).geteMail());
 
     }
 

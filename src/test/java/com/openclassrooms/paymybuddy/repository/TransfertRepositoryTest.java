@@ -19,6 +19,6 @@ public class TransfertRepositoryTest {
 
         transfert.setDescription("jules");
         transfert.setMontant(3000);
-        transfert.setDate("12/11/2022");
+
     }
 }
