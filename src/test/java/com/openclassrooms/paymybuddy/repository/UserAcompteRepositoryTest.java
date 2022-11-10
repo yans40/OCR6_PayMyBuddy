@@ -23,7 +23,7 @@ public class UserAcompteRepositoryTest {
         userAcompte.setSolde(15000L);
 
         userAcompteRepository.save(userAcompte);
-        UserAcompte userAcompteSavedInDb = userAcompteRepository.findById(userAcompte.getId()).orElseThrow(NoSuchElementException::new);
+        UserAcompte userAcompteSavedInDb = userAcompteRepository.findById(userAcompte.getUserAcompte_id()).orElseThrow(NoSuchElementException::new);
 
         assertEquals("alex@mail.fr", userAcompteSavedInDb.geteMail());
 

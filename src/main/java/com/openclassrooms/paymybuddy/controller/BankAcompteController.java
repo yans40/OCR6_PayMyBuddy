@@ -5,14 +5,21 @@ import com.openclassrooms.paymybuddy.service.BankAcompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class BankAcompteController {
     @Autowired
     private BankAcompteService bankAcompteService;
 
     @PostMapping("/saveBankAcompte")
-    public BankAcompte saveBankAcompte(@RequestBody BankAcompte bankAcompte){
+    public BankAcompte saveBankAcompte(@RequestBody BankAcompte bankAcompte) {
         return bankAcompteService.saveBankAcompte(bankAcompte);
+    }
+
+    @GetMapping("bankAcomptes")
+    public List<BankAcompte> getAllBankAcomptes() {
+        return bankAcompteService.findAllBankAcomptes();
     }
 
     @GetMapping("/bankAcompte/{id}")

@@ -17,6 +17,7 @@ public class Transaction {
     @Column
     private Integer frais;
 
+
     public Transaction(String date, Integer montant, Integer frais) {
         this.date=date;
         this.montant=montant;

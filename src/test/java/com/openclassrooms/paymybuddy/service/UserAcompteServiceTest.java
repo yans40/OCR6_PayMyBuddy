@@ -2,7 +2,6 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.UserAcompte;
 import com.openclassrooms.paymybuddy.repository.UserAcompteRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +35,8 @@ class UserAcompteServiceTest {
         UserAcompte userAcompteSaved1 = userAcompteService.saveUserAcompte(userAcompteToSave1);
         UserAcompte userAcompteSaved2 = userAcompteService.saveUserAcompte(userAcompteToSave2);
 
-        UserAcompte savedUserAcompte = userAcompteService.getUserAcompteById(userAcompteSaved.getId());
-        UserAcompte savedUserAcompte1 = userAcompteService.getUserAcompteById(userAcompteSaved1.getId());
+        UserAcompte savedUserAcompte = userAcompteService.getUserAcompteById(userAcompteSaved.getUserAcompte_id());
+        UserAcompte savedUserAcompte1 = userAcompteService.getUserAcompteById(userAcompteSaved1.getUserAcompte_id());
         //ASSERT
         assertEquals("lepasse", savedUserAcompte.getPassword());
         assertEquals("jean", savedUserAcompte1.getName());
@@ -55,9 +54,9 @@ class UserAcompteServiceTest {
 
         UserAcompte userAcompteSaved = userAcompteService.saveUserAcompte(userAcompte);
         //ACT
-        UserAcompte userAcompteUpdated = userAcompteService.updateUserAcompte(updatedUser, userAcompteSaved.getId());
+        UserAcompte userAcompteUpdated = userAcompteService.updateUserAcompte(updatedUser, userAcompteSaved.getUserAcompte_id());
         //ASSERT
-        assertEquals("jeannewmail@mail.com", userAcompteService.getUserAcompteById(userAcompteUpdated.getId()).geteMail());
+        assertEquals("jeannewmail@mail.com", userAcompteService.getUserAcompteById(userAcompteUpdated.getUserAcompte_id()).geteMail());
 
     }
 
@@ -68,21 +67,22 @@ class UserAcompteServiceTest {
 
         UserAcompte userAcompteSaved = userAcompteService.saveUserAcompte(userAcompteToSave);
         //ACT
-        userAcompteService.deleteUserAcompte(userAcompteSaved.getId());
+        userAcompteService.deleteUserAcompte(userAcompteSaved.getUserAcompte_id());
         //ASSERT
         assertEquals(0, userAcompteRepository.findAll().size());
     }
 
     @Test
     void findAllUserAcompteServiceTest(){
+        //ARRANGE
         UserAcompte userAcompte1 = new UserAcompte(5000L, "alexandre", "alexlegrand@mail.com", "lepasse");
 
         UserAcompte userAcompte2 = new UserAcompte(600L, "alexandre", "jeannewmail@mail.com", "newmotdepasse");
-
+        //ACT
         userAcompteService.saveUserAcompte(userAcompte1);
         userAcompteService.saveUserAcompte(userAcompte2);
         userAcompteService.findAllUserAcomptes();
-
+        //ASSERT
         assertEquals(2,userAcompteRepository.findAll().size());
     }
 

@@ -1,9 +1,6 @@
 package com.openclassrooms.paymybuddy.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table
@@ -11,7 +8,7 @@ public class Transfert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Integer id;
+    private Integer transfert_id;
     @Column
     private String description;
     @Column
@@ -31,12 +28,12 @@ public class Transfert {
         this.date = date;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getTransfert_id() {
+        return transfert_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTransfert_id(Integer transfert_id) {
+        this.transfert_id = transfert_id;
     }
 
     public String getDescription() {

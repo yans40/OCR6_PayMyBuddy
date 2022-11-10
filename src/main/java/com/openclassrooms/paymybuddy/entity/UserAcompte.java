@@ -9,7 +9,7 @@ public class UserAcompte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int id;
+    private int userAcompte_id;
     @Column
     private Long solde;
     @Column
@@ -18,6 +18,7 @@ public class UserAcompte {
     private String eMail;
     @Column
     private String password;
+
 
     public UserAcompte() {
     }
@@ -45,12 +46,12 @@ public class UserAcompte {
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public int getUserAcompte_id() {
+        return userAcompte_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserAcompte_id(int userAcompte_id) {
+        this.userAcompte_id = userAcompte_id;
     }
 
     public Long getSolde() {
