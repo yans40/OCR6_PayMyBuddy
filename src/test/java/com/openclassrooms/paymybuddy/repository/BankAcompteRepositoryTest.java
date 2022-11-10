@@ -11,19 +11,4 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BankAcompteRepositoryTest {
 
 
-        @Autowired
-        private BankAcompteRepository bankAcompteRepository;
-
-        @Test
-        void saveMethod(){
-            BankAcompte bankAcompte = new BankAcompte();
-
-            bankAcompte.setIban("1244 3000 5678910 57");
-
-            BankAcompte bankAcompteToTest = bankAcompteRepository.save(bankAcompte);
-
-            assertEquals("1244 3000 5678910 57",bankAcompteToTest.getIban());
-
-        }
-
 }

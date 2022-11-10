@@ -6,27 +6,21 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 public class UserAcompteService {
     @Autowired
-  private UserAcompteRepository userAcompteRepository;
+    private UserAcompteRepository userAcompteRepository;
 
 
     public UserAcompte saveUserAcompte(UserAcompte userAcompteReceive) {
-        List<UserAcompte> userAcompteList = getUserAcompteList();
-        for(UserAcompte userAcompte:userAcompteList){
-            if(userAcompte.geteMail().equals(userAcompteReceive.geteMail()) && userAcompte.getPassword().equals(userAcompteReceive.getPassword())){
-                return null;
-            }
-        }
+
         return userAcompteRepository.save(userAcompteReceive);
     }
 
-    public UserAcompte getUserAcompteById(int id){
+    public UserAcompte getUserAcompteById(int id) {
         return userAcompteRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
@@ -47,8 +41,7 @@ public class UserAcompteService {
         return userAcompteRepository.save(userAcompteToUpdate);
     }
 
-     public List<UserAcompte> getUserAcompteList(){
-
+    public List<UserAcompte> findAllUserAcomptes() {
         return userAcompteRepository.findAll();
-     }
+    }
 }

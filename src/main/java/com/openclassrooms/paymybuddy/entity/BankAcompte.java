@@ -5,27 +5,47 @@ import javax.persistence.*;
 @Entity
 @Table(name = "bank_acompte")
 public class BankAcompte {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Integer acompte_Id;
-    @Column
-    private String Iban;
+    private int acompte_id;
 
-    public Integer getAcompte_Id() {
-        return acompte_Id;
+    @Column
+    private String bankName;
+
+    @Column
+    private String iban;
+
+    public BankAcompte(String bankName, String iban) {
+        this.bankName = bankName;
+        this.iban = iban;
     }
 
-    public void setAcompte_Id(Integer acompte_Id) {
-        this.acompte_Id = acompte_Id;
+    public BankAcompte() {
+
+    }
+
+    public int getAcompte_id() {
+        return acompte_id;
+    }
+
+    public void setAcompte_id(Integer acompte_id) {
+        this.acompte_id = acompte_id;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public String getIban() {
-        return Iban;
+        return iban;
     }
 
     public void setIban(String iban) {
-        Iban = iban;
+        this.iban = iban;
     }
 }

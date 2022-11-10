@@ -71,6 +71,19 @@ class UserAcompteServiceTest {
         userAcompteService.deleteUserAcompte(userAcompteSaved.getId());
         //ASSERT
         assertEquals(0, userAcompteRepository.findAll().size());
-
     }
+
+    @Test
+    void findAllUserAcompteServiceTest(){
+        UserAcompte userAcompte1 = new UserAcompte(5000L, "alexandre", "alexlegrand@mail.com", "lepasse");
+
+        UserAcompte userAcompte2 = new UserAcompte(600L, "alexandre", "jeannewmail@mail.com", "newmotdepasse");
+
+        userAcompteService.saveUserAcompte(userAcompte1);
+        userAcompteService.saveUserAcompte(userAcompte2);
+        userAcompteService.findAllUserAcomptes();
+
+        assertEquals(2,userAcompteRepository.findAll().size());
+    }
+
 }

@@ -9,7 +9,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column
-    private Integer transaction_Id;
+    private int transaction_Id;
     @Column
     private Integer montant;
     @Column
@@ -17,11 +17,20 @@ public class Transaction {
     @Column
     private Integer frais;
 
-    public Integer getTransaction_Id() {
+    public Transaction(String date, Integer montant, Integer frais) {
+        this.date=date;
+        this.montant=montant;
+        this.frais=frais;
+    }
+
+    public Transaction () {
+    }
+
+    public int getTransaction_Id() {
         return transaction_Id;
     }
 
-    public void setTransaction_Id(Integer transaction_Id) {
+    public void setTransaction_Id(int transaction_Id) {
         this.transaction_Id = transaction_Id;
     }
 

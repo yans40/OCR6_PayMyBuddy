@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -36,7 +37,11 @@ public class TransfertService {
         transfertToUpdate.setMontant(updatedTransfert.getMontant());
         transfertToUpdate.setDate(updatedTransfert.getDate());
 
-        Transfert transfertUpdated= saveTransfert(transfertToUpdate);
-        return transfertUpdated;
+        return saveTransfert(transfertToUpdate);
+    }
+
+    public List<Transfert> findAllTransfert() {
+
+        return transfertRepository.findAll();
     }
 }

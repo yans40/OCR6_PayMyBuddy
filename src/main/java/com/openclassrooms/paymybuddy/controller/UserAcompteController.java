@@ -22,9 +22,9 @@ public class UserAcompteController {
         return userAcompteService.getUserAcompteById(id);
     }
 
-    @GetMapping("/UserAcomptes")
+    @GetMapping("/userAcomptes")
     public List<UserAcompte> getUsersList(){
-        return userAcompteService.getUserAcompteList();
+        return userAcompteService.findAllUserAcomptes();
     }
     @DeleteMapping("/deleteUser/{id}")
     public UserAcompte deleteUser(@PathVariable int id){

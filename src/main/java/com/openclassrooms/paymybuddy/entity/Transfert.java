@@ -17,7 +17,6 @@ public class Transfert {
     @Column
     private Integer montant;
     @Column
-
     private String date;
 
 
