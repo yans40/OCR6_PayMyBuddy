@@ -1,7 +1,6 @@
 package com.openclassrooms.paymybuddy.repository;
 
 import com.openclassrooms.paymybuddy.entity.Transfert;
-import com.openclassrooms.paymybuddy.entity.UserAcompte;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

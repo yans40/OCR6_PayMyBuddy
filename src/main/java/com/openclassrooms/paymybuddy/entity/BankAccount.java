@@ -3,8 +3,8 @@ package com.openclassrooms.paymybuddy.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "bank_acompte")
-public class BankAcompte {
+@Table(name = "bank_account")
+public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -16,12 +16,12 @@ public class BankAcompte {
     @Column
     private String iban;
 
-    public BankAcompte(String bankName, String iban) {
+    public BankAccount(String bankName, String iban) {
         this.bankName = bankName;
         this.iban = iban;
     }
 
-    public BankAcompte() {
+    public BankAccount() {
 
     }
 

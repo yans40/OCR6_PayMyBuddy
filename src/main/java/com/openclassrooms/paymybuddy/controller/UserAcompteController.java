@@ -1,7 +1,7 @@
 package com.openclassrooms.paymybuddy.controller;
 
-import com.openclassrooms.paymybuddy.entity.UserAcompte;
-import com.openclassrooms.paymybuddy.service.UserAcompteService;
+import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,30 +10,30 @@ import java.util.List;
 @RestController
 public class UserAcompteController {
     @Autowired
-    private UserAcompteService userAcompteService;
+    private UserAccountService userAccountService;
 
     @PostMapping("/addUser")
-    public UserAcompte addUserAcompte(@RequestBody UserAcompte userAcompte){
-        return userAcompteService.saveUserAcompte(userAcompte);
+    public UserAccount addUserAcompte(@RequestBody UserAccount userAccount){
+        return userAccountService.saveUserAccount(userAccount);
     }
 
     @GetMapping("/userAcompte/{id}")
-    public UserAcompte getUserById(@PathVariable int id){
-        return userAcompteService.getUserAcompteById(id);
+    public UserAccount getUserById(@PathVariable int id){
+        return userAccountService.getUserAccountById(id);
     }
 
     @GetMapping("/userAcomptes")
-    public List<UserAcompte> getUsersList(){
-        return userAcompteService.findAllUserAcomptes();
+    public List<UserAccount> getUsersList(){
+        return userAccountService.findAllUserAccounts();
     }
     @DeleteMapping("/deleteUser/{id}")
-    public UserAcompte deleteUser(@PathVariable int id){
-       return userAcompteService.deleteUserAcompte(id);
+    public UserAccount deleteUser(@PathVariable int id){
+       return userAccountService.deleteUserAccount(id);
     }
 
     @PutMapping("/updateUserAcompte/{id}")
-    public UserAcompte updateById(@RequestBody UserAcompte userAcompte, @PathVariable int id){
+    public UserAccount updateById(@RequestBody UserAccount userAccount, @PathVariable int id){
 
-        return userAcompteService.updateUserAcompte(userAcompte,id);
+        return userAccountService.updateUserAccount(userAccount,id);
     }
 }

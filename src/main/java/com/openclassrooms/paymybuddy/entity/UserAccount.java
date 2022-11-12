@@ -4,12 +4,12 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "user_acompte")
-public class UserAcompte {
+@Table(name = "user_account")
+public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int userAcompte_id;
+    private int userAccount_id;
     @Column
     private Long solde;
     @Column
@@ -20,10 +20,10 @@ public class UserAcompte {
     private String password;
 
 
-    public UserAcompte() {
+    public UserAccount() {
     }
 
-    public UserAcompte(Long solde, String name, String eMail, String password) {
+    public UserAccount(Long solde, String name, String eMail, String password) {
         this.solde = solde;
         this.name = name;
         this.eMail = eMail;
@@ -46,12 +46,12 @@ public class UserAcompte {
         this.password = password;
     }
 
-    public int getUserAcompte_id() {
-        return userAcompte_id;
+    public int getUserAccount_id() {
+        return userAccount_id;
     }
 
-    public void setUserAcompte_id(int userAcompte_id) {
-        this.userAcompte_id = userAcompte_id;
+    public void setUserAccount_id(int userAccount_id) {
+        this.userAccount_id = userAccount_id;
     }
 
     public Long getSolde() {

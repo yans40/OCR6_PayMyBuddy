@@ -1,6 +1,6 @@
 package com.openclassrooms.paymybuddy.controller;
 
-import com.openclassrooms.paymybuddy.service.UserAcompteService;
+import com.openclassrooms.paymybuddy.service.UserAccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,12 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 
-class UserAcompteControllerTest {
+class UserAccountControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private UserAcompteService userAcompteService;
+    private UserAccountService userAccountService;
 
     @Test
     void addUserAcompte() throws Exception {
