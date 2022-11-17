@@ -1,6 +1,8 @@
 package com.openclassrooms.paymybuddy.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -18,7 +20,51 @@ public class UserAccount {
     private String eMail;
     @Column
     private String password;
+    @OneToMany(mappedBy = "emetteur")
+    List<Transaction> transactionsEmises = new ArrayList<>();
+    @OneToMany(mappedBy = "beneficiaire")
+    List<Transaction> transactionsRecues = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "UserContacts",
+            joinColumns = @JoinColumn(name = "user_account_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_contact_id"))
+    private List<UserAccount> contacts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userAccount")
+    List<Transfert> transferts = new ArrayList<>();
+
+    public List<Transaction> getTransactionsEmises() {
+        return transactionsEmises;
+    }
+
+    public void setTransactionsEmises(List<Transaction> transactionsEmises) {
+        this.transactionsEmises = transactionsEmises;
+    }
+
+    public List<Transaction> getTransactionsRecues() {
+        return transactionsRecues;
+    }
+
+    public void setTransactionsRecues(List<Transaction> transactionsRecues) {
+        this.transactionsRecues = transactionsRecues;
+    }
+
+    public List<UserAccount> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<UserAccount> contacts) {
+        this.contacts = contacts;
+    }
+
+    public List<Transfert> getTransferts() {
+        return transferts;
+    }
+
+    public void setTransferts(List<Transfert> transferts) {
+        this.transferts = transferts;
+    }
 
     public UserAccount() {
     }

@@ -13,27 +13,27 @@ public class UserAcompteController {
     private UserAccountService userAccountService;
 
     @PostMapping("/addUser")
-    public UserAccount addUserAcompte(@RequestBody UserAccount userAccount){
+    public UserAccount addUserAcompte(@RequestBody UserAccount userAccount) {
         return userAccountService.saveUserAccount(userAccount);
     }
 
-    @GetMapping("/userAcompte/{id}")
-    public UserAccount getUserById(@PathVariable int id){
+    @GetMapping("/userAccount/{id}")
+    public UserAccount getUserById(@PathVariable int id) {
         return userAccountService.getUserAccountById(id);
     }
 
-    @GetMapping("/userAcomptes")
-    public List<UserAccount> getUsersList(){
+    @GetMapping("/userAccounts")
+    public List<UserAccount> getUsersList() {
         return userAccountService.findAllUserAccounts();
     }
+
     @DeleteMapping("/deleteUser/{id}")
-    public UserAccount deleteUser(@PathVariable int id){
-       return userAccountService.deleteUserAccount(id);
+    public UserAccount deleteUser(@PathVariable int id) {
+        return userAccountService.deleteUserAccount(id);
     }
 
-    @PutMapping("/updateUserAcompte/{id}")
-    public UserAccount updateById(@RequestBody UserAccount userAccount, @PathVariable int id){
-
-        return userAccountService.updateUserAccount(userAccount,id);
+    @PutMapping("/updateUserAccount/{id}")
+    public UserAccount updateById(@RequestBody UserAccount userAccount, @PathVariable int id) {
+        return userAccountService.updateUserAccount(userAccount, id);
     }
 }

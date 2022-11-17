@@ -17,6 +17,29 @@ public class Transaction {
     @Column
     private Integer frais;
 
+    @ManyToOne
+    @JoinColumn(name = "user_emetteur_Id")
+    private UserAccount emetteur;
+
+    @ManyToOne
+    @JoinColumn(name = "user_beneficiaire_Id")
+    private UserAccount beneficiaire;
+
+    public UserAccount getEmetteur() {
+        return emetteur;
+    }
+
+    public void setEmetteur(UserAccount emetteur) {
+        this.emetteur = emetteur;
+    }
+
+    public UserAccount getBeneficiaire() {
+        return beneficiaire;
+    }
+
+    public void setBeneficiaire(UserAccount beneficiaire) {
+        this.beneficiaire = beneficiaire;
+    }
 
     public Transaction(String date, Integer montant, Integer frais) {
         this.date=date;

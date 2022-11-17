@@ -40,11 +40,4 @@ class UserAccountControllerTest {
                 .andDo(print());
     }
 
-//    @Test
-//    void deleteUser() {
-//    }
-//
-//    @Test
-//    void getUserById() {
-//    }
 }
