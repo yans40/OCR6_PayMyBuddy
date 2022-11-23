@@ -14,9 +14,36 @@ public class Transfert {
     @Column
     private Integer montant;
     @Column
+    private String Iban;
+    @Column
     private String date;
     @ManyToOne
     private UserAccount userAccount;
+
+    public Transfert() {
+
+    }
+
+    public Transfert( String description, Integer montant, String iban, String date) {
+        this.description = description;
+        this.montant = montant;
+        Iban = iban;
+        this.date = date;
+    }
+
+    public Transfert(String description, Integer montant, String date) {
+        this.description = description;
+        this.montant = montant;
+        this.date = date;
+    }
+
+    public String getIban() {
+        return Iban;
+    }
+
+    public void setIban(String iban) {
+        Iban = iban;
+    }
 
     public UserAccount getUserAccount() {
         return userAccount;
@@ -24,16 +51,6 @@ public class Transfert {
 
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
-    }
-
-    public Transfert() {
-
-    }
-
-    public Transfert(String description, Integer montant, String date) {
-        this.description = description;
-        this.montant = montant;
-        this.date = date;
     }
 
     public Integer getTransfert_id() {

@@ -1,6 +1,7 @@
 package com.openclassrooms.paymybuddy.repository;
 
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,18 +15,34 @@ public class UserAccountRepositoryTest {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
+    @BeforeEach
+    void cleanDb() {
+        this.userAccountRepository.deleteAll();
+    }
+
     @Test
-    void saveMethodTest(){
+    void saveTest(){
         UserAccount userAccount = new UserAccount();
-        userAccount.setName("alexandre");
-        userAccount.seteMail("alex@mail.fr");
-        userAccount.setPassword("legrand");
-        userAccount.setSolde(15000L);
+        userAccount.setName("olivier");
+        userAccount.seteMail("olivier@mail.fr");
+        userAccount.setPassword("olive");
+        userAccount.setSolde(23000L);
 
         userAccountRepository.save(userAccount);
         UserAccount userAccountSavedInDb = userAccountRepository.findById(userAccount.getUserAccount_id()).orElseThrow(NoSuchElementException::new);
 
-        assertEquals("alex@mail.fr", userAccountSavedInDb.geteMail());
+        assertEquals("olivier@mail.fr", userAccountSavedInDb.geteMail());
+
+    }
+
+
+    @Test
+    void findTest(){
+
+    }
+
+    @Test
+    void deleteTest(){
 
     }
 

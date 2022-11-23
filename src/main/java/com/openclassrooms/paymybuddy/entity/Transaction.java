@@ -7,9 +7,11 @@ import javax.persistence.*;
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int transaction_Id;
+    @Column
+    private String description;
     @Column
     private Integer montant;
     @Column
@@ -24,6 +26,15 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "user_beneficiaire_Id")
     private UserAccount beneficiaire;
+
+    public Transaction(String date, Integer montant, Integer frais) {
+        this.date = date;
+        this.montant = montant;
+        this.frais = frais;
+    }
+
+    public Transaction() {
+    }
 
     public UserAccount getEmetteur() {
         return emetteur;
@@ -41,16 +52,7 @@ public class Transaction {
         this.beneficiaire = beneficiaire;
     }
 
-    public Transaction(String date, Integer montant, Integer frais) {
-        this.date=date;
-        this.montant=montant;
-        this.frais=frais;
-    }
-
-    public Transaction () {
-    }
-
-    public int getTransaction_Id() {
+    public Integer getTransaction_Id() {
         return transaction_Id;
     }
 
@@ -64,6 +66,14 @@ public class Transaction {
 
     public void setMontant(Integer montant) {
         this.montant = montant;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDate() {
