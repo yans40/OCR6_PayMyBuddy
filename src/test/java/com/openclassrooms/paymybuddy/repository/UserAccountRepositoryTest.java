@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,7 +22,7 @@ public class UserAccountRepositoryTest {
     }
 
     @Test
-    void saveTest(){
+    void saveTest() {
         UserAccount userAccount = new UserAccount();
         userAccount.setName("olivier");
         userAccount.seteMail("olivier@mail.fr");
@@ -37,14 +38,31 @@ public class UserAccountRepositoryTest {
 
 
     @Test
-    void findTest(){
+    void findTest() {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setName("jeremy");
+        userAccount.seteMail("je@mail.fr");
+        userAccount.setPassword("jeje");
+        userAccount.setSolde(35000L);
 
+        UserAccount userAccountSaved = userAccountRepository.save(userAccount);
+
+        Optional<UserAccount> findedUserAccount = userAccountRepository.findById(userAccountSaved.getUserAccount_id());
+
+        assertEquals("je@mail.fr", findedUserAccount.get().geteMail());
     }
 
     @Test
-    void deleteTest(){
+    void deleteTest() {
 
+        UserAccount userAccount = new UserAccount();
+        userAccount.setName("gerard");
+        userAccount.seteMail("gerard@mail.fr");
+        userAccount.setPassword("gerard1");
+        userAccount.setSolde(45000L);
+
+        userAccountRepository.delete(userAccount);
+
+        assertEquals(0, userAccountRepository.findAll().size());
     }
-
-
 }
