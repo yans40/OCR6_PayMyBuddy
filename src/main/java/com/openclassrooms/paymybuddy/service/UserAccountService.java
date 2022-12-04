@@ -15,9 +15,16 @@ public class UserAccountService {
     private UserAccountRepository userAccountRepository;
 
 
-    public UserAccount saveUserAccount(UserAccount userAccountReceive) {
+    public UserAccount saveUserAccount(@NotNull UserAccount userAccountReceive) {
+        UserAccount userAccountFind = userAccountRepository.findByEMail(userAccountReceive.geteMail());
 
-        return userAccountRepository.save(userAccountReceive);
+        if (userAccountFind != null) {
+            System.out.println("le mail est déja utilisé");
+            return null;
+        }else {
+            return userAccountRepository.save(userAccountReceive);
+        }
+
     }
 
     public UserAccount getUserAccountById(int id) {

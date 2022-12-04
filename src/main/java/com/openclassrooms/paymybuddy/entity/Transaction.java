@@ -20,21 +20,33 @@ public class Transaction {
     private Integer frais;
 
     @ManyToOne
-    @JoinColumn(name = "user_emetteur_Id")
+    @JoinColumn(name = "emetteur")
     private UserAccount emetteur;
 
     @ManyToOne
-    @JoinColumn(name = "user_beneficiaire_Id")
+    @JoinColumn(name = "beneficiaire")
     private UserAccount beneficiaire;
 
-    public Transaction(String date, Integer montant, Integer frais) {
-        this.date = date;
+    public Transaction(String description, Integer montant, String date, Integer frais, UserAccount emetteur, UserAccount beneficiaire) {
+        this.description = description;
         this.montant = montant;
+        this.date = date;
+        this.frais = frais;
+        this.emetteur = emetteur;
+        this.beneficiaire = beneficiaire;
+    }
+
+    public Transaction( String date,Integer montant, Integer frais) {
+
+        this.montant = montant;
+        this.date = date;
         this.frais = frais;
     }
 
     public Transaction() {
     }
+
+
 
     public UserAccount getEmetteur() {
         return emetteur;

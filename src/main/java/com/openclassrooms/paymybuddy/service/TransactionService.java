@@ -2,6 +2,7 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +15,30 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
 
-    public Transaction saveTransaction(Transaction transaction){
+    public Transaction saveTransaction(@NotNull Transaction transaction) {
 
-        return transactionRepository.save(transaction);
+        Long soldeAVerifier = transaction.getEmetteur().getSolde();
+        int montantTransaction = transaction.getMontant();
+
+        if (soldeAVerifier < montantTransaction) {
+            System.out.println("solde Insuffisant pour réaliser la transaction");
+            return null;
+        } else {
+            return transactionRepository.save(transaction);
+        }
+
     }
 
-    public Transaction getTransactionById(int id){
+    public Transaction getTransactionById(int id) {
         return transactionRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
-    public Transaction deleteTransaction(int id){
+    public Transaction deleteTransaction(int id) {
         transactionRepository.deleteById(id);
         return null;
     }
 
-    public Transaction updateTransaction(Transaction updateTransaction, int id) {
+    public Transaction updateTransaction(@NotNull Transaction updateTransaction, int id) {
         Transaction transactionToUpdate = getTransactionById(id);
 
         transactionToUpdate.setDate(updateTransaction.getDate());
@@ -41,7 +51,6 @@ public class TransactionService {
     }
 
     public List<Transaction> findAllTransactions() {
-
         return transactionRepository.findAll();
     }
 }
