@@ -17,7 +17,7 @@ public class Transaction {
     @Column
     private String date;
     @Column
-    private Integer frais;
+    private double frais;
 
     @ManyToOne
     @JoinColumn(name = "emetteur")
@@ -27,11 +27,10 @@ public class Transaction {
     @JoinColumn(name = "beneficiaire")
     private UserAccount beneficiaire;
 
-    public Transaction(String description, Integer montant, String date, Integer frais, UserAccount emetteur, UserAccount beneficiaire) {
+    public Transaction(String description, Integer montant, String date, UserAccount emetteur, UserAccount beneficiaire) {
         this.description = description;
         this.montant = montant;
         this.date = date;
-        this.frais = frais;
         this.emetteur = emetteur;
         this.beneficiaire = beneficiaire;
     }
@@ -96,11 +95,11 @@ public class Transaction {
         this.date = date;
     }
 
-    public Integer getFrais() {
+    public double getFrais() {
         return frais;
     }
 
-    public void setFrais(Integer frais) {
+    public void setFrais(double frais) {
         this.frais = frais;
     }
 }

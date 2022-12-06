@@ -1,5 +1,8 @@
 package com.openclassrooms.paymybuddy.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +23,10 @@ public class UserAccount {
     private String eMail;
     @Column
     private String password;
+    @JsonIgnore
     @OneToMany(mappedBy = "emetteur")
     List<Transaction> transactionsEmises = new ArrayList<>();
+    @JsonIgnore
     @OneToMany(mappedBy = "beneficiaire")
     List<Transaction> transactionsRecues = new ArrayList<>();
 
@@ -30,7 +35,7 @@ public class UserAccount {
             joinColumns = @JoinColumn(name = "user_account_id"),
             inverseJoinColumns = @JoinColumn(name = "user_contact_id"))
     private List<UserAccount> contacts = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "userAccount")
     List<Transfert> transferts = new ArrayList<>();
 
@@ -115,5 +120,6 @@ public class UserAccount {
     public void setName(String name) {
         this.name = name;
     }
+
 }
 

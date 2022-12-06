@@ -1,6 +1,7 @@
 package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.Transaction;
+import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.springframework.util.ClassUtils.isPresent;
 
 @Service
 public class TransactionService {
@@ -17,13 +20,18 @@ public class TransactionService {
 
     public Transaction saveTransaction(@NotNull Transaction transaction) {
 
-        Long soldeAVerifier = transaction.getEmetteur().getSolde();
-        int montantTransaction = transaction.getMontant();
+        double soldeEmetteurAVerifier = transaction.getEmetteur().getSolde();
+        double fraisDeTransaction = calculFraisDeTransaction(transaction);
+        double montantTransactionTtc = transaction.getMontant() + fraisDeTransaction;
+        transaction.setFrais(fraisDeTransaction);
 
-        if (soldeAVerifier < montantTransaction) {
-            System.out.println("solde Insuffisant pour réaliser la transaction");
+        if (soldeEmetteurAVerifier < montantTransactionTtc || !isContact(transaction.getEmetteur(), transaction.getBeneficiaire())) {
+            System.out.println("les conditions ne sont pas réunies pour réaliser la transaction");
             return null;
         } else {
+            soldeEmetteurAVerifier -= montantTransactionTtc;
+            System.out.println("une transaction de: " + transaction.getMontant() + " a été réalisée vers " + transaction.getBeneficiaire().getName() + " et les frais sont de: " + fraisDeTransaction + " €");
+            System.out.println("le nouveau solde du compte est: " + soldeEmetteurAVerifier + " €");
             return transactionRepository.save(transaction);
         }
 
@@ -43,14 +51,27 @@ public class TransactionService {
 
         transactionToUpdate.setDate(updateTransaction.getDate());
         transactionToUpdate.setMontant(updateTransaction.getMontant());
-        transactionToUpdate.setFrais(updateTransaction.getFrais());
+        transactionToUpdate.setFrais((int) updateTransaction.getFrais());
 
-        Transaction transactionUpdated = saveTransaction(transactionToUpdate);
-
-        return transactionUpdated;
+        return saveTransaction(transactionToUpdate);
     }
 
     public List<Transaction> findAllTransactions() {
         return transactionRepository.findAll();
+    }
+
+    public double calculFraisDeTransaction(@NotNull Transaction transaction) {
+        return transaction.getMontant() * 0.05;
+    }
+
+    boolean isContact(@NotNull UserAccount emetteur, UserAccount beneficiaire) {
+        List<UserAccount> contacts = emetteur.getContacts();
+        boolean result = false;
+        for (UserAccount contact : contacts) {
+            if (contact.geteMail().equals(beneficiaire.geteMail())) {
+                return true;
+            }
+        }
+        return result;
     }
 }

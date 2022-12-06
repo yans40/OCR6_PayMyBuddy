@@ -44,7 +44,6 @@ class UserAccountServiceTest {
         userAccountService.saveUserAccount(userAccountWithSameMail);
 
         //ASSERT
-
         assertEquals(1, userAccountRepository.findAll().size());
 
     }
@@ -77,17 +76,20 @@ class UserAccountServiceTest {
 //        assertEquals(0, userAccountRepository.findAll().size());
 //    }
 //
-//    @Test
-//    void findAllUserAccountServiceTest() {
-//        //ARRANGE
-//        UserAccount userAccount1 = new UserAccount(5000L, "alexandre", "alexlegrand@mail.com", "lepasse");
-//        UserAccount userAccount2 = new UserAccount(600L, "alexandre", "jeannewmail@mail.com", "newmotdepasse");
-//        //ACT
-//        userAccountService.saveUserAccount(userAccount1);
-//        userAccountService.saveUserAccount(userAccount2);
-//        userAccountService.findAllUserAccounts();
-//        //ASSERT
-//        assertEquals(2, userAccountRepository.findAll().size());
-//    }
+    @Test
+    void findAllUserAccountServiceTest() {
+        //ARRANGE
+        UserAccount userAccount1 = new UserAccount(5000L, "alexandre", "alexlegrand@mail.com", "lepasse");
+        UserAccount userAccount2 = new UserAccount(600L, "jean", "jeannewmail@mail.com", "newmotdepasse");
+        UserAccount userAccount3 = new UserAccount(600L, "martine", "martine@mail.com", "passe");
+
+        //ACT
+        userAccountService.saveUserAccount(userAccount1);
+        userAccountService.saveUserAccount(userAccount2);
+        userAccountService.saveUserAccount(userAccount3);
+        userAccountService.findAllUserAccounts();
+        //ASSERT
+        assertEquals(3, userAccountRepository.findAll().size());
+    }
 
 }

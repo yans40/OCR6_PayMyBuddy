@@ -8,13 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class UserAcompteController {
+public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
 
     @PostMapping("/addUser")
-    public UserAccount addUserAcompte(@RequestBody UserAccount userAccount) {
+    public UserAccount addUserAccount(@RequestBody UserAccount userAccount) {
         return userAccountService.saveUserAccount(userAccount);
+    }
+
+    @PostMapping("/addContact/{id}")
+    public UserAccount addContact(@PathVariable int id,@RequestBody UserAccount userAccountToAddAsContact){
+        return userAccountService.saveContact(id,userAccountToAddAsContact);
+
     }
 
     @GetMapping("/userAccount/{id}")
