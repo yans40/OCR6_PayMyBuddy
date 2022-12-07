@@ -1,5 +1,7 @@
 package com.openclassrooms.paymybuddy.entity;
 
+import com.openclassrooms.paymybuddy.constants.TransfertType;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,32 +12,45 @@ public class Transfert {
     @Column
     private Integer transfert_id;
     @Column
-    private String description;
+    private String date;
+    @Column
+    private TransfertType transfertType;
     @Column
     private Integer montant;
     @Column
     private String Iban;
-    @Column
-    private String date;
+
     @ManyToOne
     private UserAccount userAccount;
+
+    public Transfert(String date, TransfertType transfertType, Integer montant, String iban, UserAccount userAccount) {
+        this.date = date;
+        this.transfertType = transfertType;
+        this.montant = montant;
+        this.Iban = iban;
+        this.userAccount = userAccount;
+    }
+
+    public TransfertType getTransfertType() {
+        return transfertType;
+    }
+
+    public void setTransfertType(TransfertType transfertType) {
+        this.transfertType = transfertType;
+    }
 
     public Transfert() {
 
     }
 
-    public Transfert( String description, Integer montant, String iban, String date) {
-        this.description = description;
+    public Transfert(Integer montant, String iban, String date, TransfertType transfertType) {
+
         this.montant = montant;
         this.Iban = iban;
         this.date = date;
+        this.transfertType = transfertType;
     }
 
-    public Transfert(String description, Integer montant, String date) {
-        this.description = description;
-        this.montant = montant;
-        this.date = date;
-    }
 
     public String getIban() {
         return Iban;
@@ -59,14 +74,6 @@ public class Transfert {
 
     public void setTransfert_id(Integer transfert_id) {
         this.transfert_id = transfert_id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Integer getMontant() {

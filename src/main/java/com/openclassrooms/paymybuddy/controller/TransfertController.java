@@ -13,7 +13,7 @@ public class TransfertController {
     @Autowired
     private TransfertService transfertService;
 
-    @PostMapping("/addTransfert")
+    @PostMapping("/transfert")
     public Transfert addTransfert(@RequestBody Transfert transfert) {
         return transfertService.saveTransfert(transfert);
     }
@@ -27,7 +27,7 @@ public class TransfertController {
         return transfertService.getTransfertById(id);
     }
 
-    @DeleteMapping("/deleteTransfert/{id}")
+    @DeleteMapping("/transfert/{id}")
     public Transfert deleteTransfert(@PathVariable int id) {
         return transfertService.deleteTransfert(id);
     }

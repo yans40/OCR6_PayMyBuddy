@@ -16,7 +16,7 @@ public class UserAccount {
     @Column
     private int userAccount_id;
     @Column
-    private Long solde;
+    private double solde;
     @Column
     private String name;
     @Column
@@ -74,7 +74,7 @@ public class UserAccount {
     public UserAccount() {
     }
 
-    public UserAccount(Long solde, String name, String eMail, String password) {
+    public UserAccount(double solde, String name, String eMail, String password) {
         this.solde = solde;
         this.name = name;
         this.eMail = eMail;
@@ -105,11 +105,11 @@ public class UserAccount {
         this.userAccount_id = userAccount_id;
     }
 
-    public Long getSolde() {
+    public double getSolde() {
         return solde;
     }
 
-    public void setSolde(Long solde) {
+    public void setSolde(double solde) {
         this.solde = solde;
     }
 

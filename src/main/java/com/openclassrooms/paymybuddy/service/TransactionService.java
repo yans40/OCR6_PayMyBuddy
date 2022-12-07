@@ -3,6 +3,7 @@ package com.openclassrooms.paymybuddy.service;
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.springframework.util.ClassUtils.isPresent;
-
+@Slf4j
 @Service
 public class TransactionService {
     @Autowired
@@ -26,10 +27,11 @@ public class TransactionService {
         transaction.setFrais(fraisDeTransaction);
 
         if (soldeEmetteurAVerifier < montantTransactionTtc || !isContact(transaction.getEmetteur(), transaction.getBeneficiaire())) {
-            System.out.println("les conditions ne sont pas réunies pour réaliser la transaction");
+            log.info("les conditions ne sont pas réunies pour réaliser la transaction");
             return null;
         } else {
             soldeEmetteurAVerifier -= montantTransactionTtc;
+            log.info("transaction effectuée vers le compte bénéficiaire");
             System.out.println("une transaction de: " + transaction.getMontant() + " a été réalisée vers " + transaction.getBeneficiaire().getName() + " et les frais sont de: " + fraisDeTransaction + " €");
             System.out.println("le nouveau solde du compte est: " + soldeEmetteurAVerifier + " €");
             return transactionRepository.save(transaction);
