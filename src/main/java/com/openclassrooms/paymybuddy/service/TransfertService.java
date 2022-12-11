@@ -26,8 +26,9 @@ public class TransfertService {
 
     public Transfert saveTransfert(@NotNull Transfert transfert) {
         int userId = transfert.getUserAccount().getUserAccount_id();// on récupère le userId puis...
-        double currentUserSolde = userAccountService.getUserAccountById(userId).getSolde();//on recherche son solde actuel dans la table user
         UserAccount user = transfert.getUserAccount();
+        double currentUserSolde = userAccountService.getUserAccountById(user.getUserAccount_id()).getSolde();//on recherche son solde actuel dans la table user
+
 
 
         if (transfert.getTransfertType().equals(CREDIT)) {// on teste le cas CREDIT
@@ -36,7 +37,7 @@ public class TransfertService {
             System.out.println(nouveauSolde);
 
             user.setSolde(nouveauSolde);//on set le solde dans le solde du user...
-            userAccountService.updateUserAccount(user, user.getUserAccount_id());// on le persiste en appelant la methode update userAccountService
+            userAccountService.updateUserAccountBalanceAfterTransfertOrTransaction(user);// on le persiste en appelant la methode update userAccountService
 
             System.out.println(user.getSolde());
             return transfertRepository.save(transfert);
@@ -48,7 +49,7 @@ public class TransfertService {
                 System.out.println(nouveauSolde);
 
                 user.setSolde(nouveauSolde);
-                userAccountService.updateUserAccount(user, user.getUserAccount_id());
+                userAccountService.updateUserAccountBalanceAfterTransfertOrTransaction(user);
                 System.out.println(user.getSolde());
                 transfertRepository.save(transfert);
             } else {

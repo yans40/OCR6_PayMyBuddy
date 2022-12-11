@@ -3,6 +3,8 @@ package com.openclassrooms.paymybuddy.controller;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
+
 
     @PostMapping("/addUser")
     public UserAccount addUserAccount(@RequestBody UserAccount userAccount) {
@@ -40,6 +43,7 @@ public class UserAccountController {
 
     @PutMapping("/updateUserAccount/{id}")
     public UserAccount updateById(@RequestBody UserAccount userAccount, @PathVariable int id) {
-        return userAccountService.updateUserAccount(userAccount, id);
+        userAccount.setUserAccount_id(id);
+        return userAccountService.updateUserAccount(userAccount);
     }
 }

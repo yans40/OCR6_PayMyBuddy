@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -48,8 +47,8 @@ public class UserAccountService {
         return null;
     }
 
-    public UserAccount updateUserAccount(@NotNull UserAccount userAccountReceive, int id) {
-        UserAccount userAccountToUpdate = getUserAccountById(id);
+    public UserAccount updateUserAccount(@NotNull UserAccount userAccountReceive) {
+        UserAccount userAccountToUpdate = getUserAccountById(userAccountReceive.getUserAccount_id());
 
         userAccountToUpdate.setName(userAccountReceive.getName());
         userAccountToUpdate.setSolde(userAccountReceive.getSolde());
@@ -57,6 +56,14 @@ public class UserAccountService {
         userAccountToUpdate.seteMail(userAccountReceive.geteMail());
 
         return userAccountRepository.save(userAccountToUpdate);
+    }
+
+    public void updateUserAccountBalanceAfterTransfertOrTransaction(@NotNull UserAccount userAccountReceive) {
+        UserAccount userAccountToUpdate = getUserAccountById(userAccountReceive.getUserAccount_id());
+
+        userAccountToUpdate.setSolde(userAccountReceive.getSolde());
+
+        userAccountRepository.save(userAccountToUpdate);
     }
 
     public List<UserAccount> findAllUserAccounts() {

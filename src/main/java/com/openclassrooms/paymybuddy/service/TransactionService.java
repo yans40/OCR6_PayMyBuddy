@@ -11,29 +11,45 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static org.springframework.util.ClassUtils.isPresent;
 @Slf4j
 @Service
 public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private UserAccountService userAccountService;
 
 
     public Transaction saveTransaction(@NotNull Transaction transaction) {
+        UserAccount emetteur = transaction.getEmetteur();
+        UserAccount beneficiaire = transaction.getBeneficiaire();
+        int emetteurId=emetteur.getUserAccount_id();
+        int beneficiaireId = beneficiaire.getUserAccount_id();
 
-        double soldeEmetteurAVerifier = transaction.getEmetteur().getSolde();
+        double soldeEmetteurAVerifier = userAccountService.getUserAccountById(emetteurId).getSolde();
+        double soldeBeneficiaireAcrediter = userAccountService.getUserAccountById(beneficiaireId).getSolde();
+
         double fraisDeTransaction = calculFraisDeTransaction(transaction);
-        double montantTransactionTtc = transaction.getMontant() + fraisDeTransaction;
-        transaction.setFrais(fraisDeTransaction);
+        double montantTransactionTtc = transaction.getMontant() + fraisDeTransaction;// calcul du montant total à imputer à l'emetteur
+        transaction.setFrais(fraisDeTransaction);// set ou pas?
 
         if (soldeEmetteurAVerifier < montantTransactionTtc || !isContact(transaction.getEmetteur(), transaction.getBeneficiaire())) {
             log.info("les conditions ne sont pas réunies pour réaliser la transaction");
             return null;
         } else {
-            soldeEmetteurAVerifier -= montantTransactionTtc;
+            double nouveauSoldeEmetteur = soldeEmetteurAVerifier - montantTransactionTtc;
+            double nouveausoldeBeneficiaire = soldeBeneficiaireAcrediter + transaction.getMontant();
+
             log.info("transaction effectuée vers le compte bénéficiaire");
             System.out.println("une transaction de: " + transaction.getMontant() + " a été réalisée vers " + transaction.getBeneficiaire().getName() + " et les frais sont de: " + fraisDeTransaction + " €");
-            System.out.println("le nouveau solde du compte est: " + soldeEmetteurAVerifier + " €");
+            System.out.println("le nouveau solde du compte est: " + nouveauSoldeEmetteur + " €");
+
+            emetteur.setSolde(nouveauSoldeEmetteur);
+            beneficiaire.setSolde(nouveausoldeBeneficiaire);//on set aussi le nouveau solde du bénéficaire...
+
+            userAccountService.updateUserAccountBalanceAfterTransfertOrTransaction(emetteur);//on les enregistre
+            userAccountService.updateUserAccountBalanceAfterTransfertOrTransaction(beneficiaire);
+
             return transactionRepository.save(transaction);
         }
 
@@ -67,7 +83,8 @@ public class TransactionService {
     }
 
     boolean isContact(@NotNull UserAccount emetteur, UserAccount beneficiaire) {
-        List<UserAccount> contacts = emetteur.getContacts();
+        int emetteurId = emetteur.getUserAccount_id();
+        List<UserAccount> contacts = userAccountService.getUserAccountById(emetteurId).getContacts();;
         boolean result = false;
         for (UserAccount contact : contacts) {
             if (contact.geteMail().equals(beneficiaire.geteMail())) {

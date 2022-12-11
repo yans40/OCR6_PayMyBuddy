@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class transactionServiceTest {
+public class TransactionServiceTest {
 
     @Autowired
     TransactionRepository transactionRepository;
