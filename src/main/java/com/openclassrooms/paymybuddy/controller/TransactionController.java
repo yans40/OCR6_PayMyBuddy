@@ -3,6 +3,7 @@ package com.openclassrooms.paymybuddy.controller;
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,14 +14,16 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    @PostMapping("/addTransaction")
+    @PostMapping("/transaction/add")
     public Transaction addTransaction(@RequestBody Transaction transaction) {
         return transactionService.saveTransaction(transaction);
     }
 
     @GetMapping("/transactions")
-    public List<Transaction> getAllTransactions() {
-        return transactionService.findAllTransactions();
+    public String getAllTransactions(Model model) {
+        List<Transaction> transactionsList = transactionService.findAllTransactions();
+        model.addAttribute("transactionsList", transactionsList);
+        return "userAccount";
     }
 
     @GetMapping("/transaction/{id}")

@@ -35,7 +35,7 @@ public class TransfertServiceTest {
     }
 
     @Test
-    void transfertServiceTest() {
+    void transfertServiceCreditTest() {
 
         UserAccount userAccount = new UserAccount(600, "jean", "jean@mail.com", "motpasse");
         userAccountService.saveUserAccount(userAccount);
@@ -63,7 +63,7 @@ public class TransfertServiceTest {
         transfert.setUserAccount(userAccount);
 
         Transfert savedTransfert = transfertService.saveTransfert(transfert);
-        assertNotNull(savedTransfert);
+        assertNotNull(savedTransfert);//conditiones réunies ok
     }
 
     @Test

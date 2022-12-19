@@ -2,88 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>Welcome to my application</title>
     <link rel="stylesheet" href="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div>
-    <h2><span class="badge bg-success p-2 text-white ">PayMyBuddy</span></h2>
 
-    <div>
-        <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Transfer</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Log off</a>
-            </li>
-        </ul>
-
-    </div>
+<div text align="center">
+    <h1 class="bg-success">Welcome to PayMyBuddy</h1>
+    <button type="button" class="btn btn-light" style="margin-right: 300px"><a class="h2 " th:href="@{/userAccount/new}">Subscription</a></button>
+    <button type="button" class="btn btn-light" style="margin-left: 300px"><a class="h2" th:href="@{/userAccount/connection}">Login</a></button>
 </div>
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Transfer</li>
-    </ol>
-</nav>
-<div class="mx-auto" style="width: 1100px">
-    <div class="d-inline-flex ">
-        <p class="p-md-2 mx-lg-auto" style="margin-right: 300px">Send Money</p>
-        <div class="col-auto" style="margin-left: 800px">
-            <button type="submit" class="btn btn-primary mb-3">Add Connection</button>
-        </div>
-    </div>
-    <form class="p-3 bg-light form-control">
-
-        <div class="row ">
-            <div class="col">
-                <select type="text" class=" form-select" placeholder="Select A Connection"
-                        aria-label="Select A Connection">
-                    <option selected>Select A Connection</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" placeholder="0 $" aria-label="montant">
-            </div>
-            <div class="col">
-                <input class="btn btn-success" type="submit" value="Pay" style="width: 50%">
-            </div>
-        </div>
-    </form>
-
-    <div>
-        <p style="padding-top: 3px;margin-bottom: 2px;margin-top: 16px;">My Transactions</p>
-        <table class="table table-bordered">
-            <thead class="bg-success text-white">
-            <tr>
-                <th>Contacts</th>
-                <th>Description</th>
-                <th>montant</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-
-            </tbody>
-        </table>
-    </div>
+<div th:if="${message}" class="alert-success text-center" style="background-color: limegreen">
+    [[${message}]]
 </div>
 
 </body>

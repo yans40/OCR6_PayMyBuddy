@@ -31,7 +31,7 @@ public class TransactionService {
 
         double fraisDeTransaction = calculFraisDeTransaction(transaction);
         double montantTransactionTtc = transaction.getMontant() + fraisDeTransaction;// calcul du montant total à imputer à l'emetteur
-        transaction.setFrais(fraisDeTransaction);// set ou pas?
+        transaction.setFrais(fraisDeTransaction);// à ne pas afficher
 
         if (soldeEmetteurAVerifier < montantTransactionTtc || !isContact(transaction.getEmetteur(), transaction.getBeneficiaire())) {
             log.info("les conditions ne sont pas réunies pour réaliser la transaction");

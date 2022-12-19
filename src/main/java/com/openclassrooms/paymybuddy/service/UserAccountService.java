@@ -37,6 +37,9 @@ public class UserAccountService {
 
     }
 
+    public UserAccount findByEmail(String email) {
+        return userAccountRepository.findByEMail(email);
+    }
 
     public UserAccount getUserAccountById(int id) {
         return userAccountRepository.findById(id).orElseThrow(NoSuchElementException::new);
@@ -68,5 +71,15 @@ public class UserAccountService {
 
     public List<UserAccount> findAllUserAccounts() {
         return userAccountRepository.findAll();
+    }
+
+    public String addContact(String emailReceive, int id) {
+        UserAccount userToAddAsContact = findByEmail(emailReceive);
+        UserAccount user = getUserAccountById(id);
+        List<UserAccount> contacts= user.getContacts();
+        contacts.add(userToAddAsContact);
+        userAccountRepository.save(user);
+
+        return emailReceive;
     }
 }

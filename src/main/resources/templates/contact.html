@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>contact</title>
+    <link rel="stylesheet" href="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body style="margin-left: 40%">
+<h2 class="align-content-center">Welcome to contact form</h2>
+<form th:action="@{/userAccount/saveContact}" >
+<p th:text="${message}"></p>
+    <input type="email" placeholder="E-mail">
+
+    <button type="submit" class="btn btn-primary m-2">Save</button>
+</form>
+</body>
+</html>

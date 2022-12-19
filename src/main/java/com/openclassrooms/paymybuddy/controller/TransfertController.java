@@ -1,24 +1,41 @@
 package com.openclassrooms.paymybuddy.controller;
 
 import com.openclassrooms.paymybuddy.entity.Transfert;
+import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.service.TransfertService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Slf4j
+@Controller
 public class TransfertController {
 
     @Autowired
     private TransfertService transfertService;
 
-    @PostMapping("/transfert")
-    public Transfert addTransfert(@RequestBody Transfert transfert) {
-        return transfertService.saveTransfert(transfert);
+    @PostMapping("/transfert/add")
+    public String addTransfert(@RequestBody Transfert transfert, Model model) {
+        transfertService.saveTransfert(transfert);
+        model.addAttribute("transfert", new Transfert());
+        return "redirect:/userAcconut";
     }
-    @GetMapping ("/transferts")
-    public List<Transfert> getAllTransferts(){
+
+    @GetMapping("/transfert/new")
+    public String showTransfertForm(Model model) {
+        log.info("get the transfert form");
+        String message = "Register a new transfert!";
+        model.addAttribute("transfert",new Transfert());
+        model.addAttribute("message",message);
+        return "transfert";
+    }
+
+    @GetMapping("/transferts")
+    public List<Transfert> getAllTransferts() {
         return transfertService.findAllTransfert();
     }
 

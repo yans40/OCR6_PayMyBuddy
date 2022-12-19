@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,8 +37,9 @@ public class TransactionServiceTest {
 
 
     @Test
+    @Transactional
     void saveTransactionServiceTestInsufficientBalance() {
-        
+
         UserAccount userAccountEmetteur = new UserAccount(500L, "jean", "test1@mail.com", "test1");
         UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
 
@@ -51,10 +53,9 @@ public class TransactionServiceTest {
         assertNull(savedTransaction);
     }
 
-
     @Test
+    @Transactional
     void saveTransactionServiceTestSufficientBalance() {
-
 
         UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");
         UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
@@ -70,12 +71,13 @@ public class TransactionServiceTest {
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
 
         assertNotNull(savedTransaction);
-        assertEquals("resto de fin d'année", savedTransaction.getDescription());
     }
 
     @Test
-    void saveTransactionServiceWithUserInContactList() {
-        //ARRANGE
+    @Transactional
+    void saveTransactionServiceTestSufficient() {
+
+
         UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");
         UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
 
@@ -85,6 +87,27 @@ public class TransactionServiceTest {
         List<UserAccount> emetteurContactList = userAccountEmetteur.getContacts();
         emetteurContactList.add(userAccountBeneficiaire);
 
+        Transaction transaction = new Transaction("resto", 150, "12/12/2022", userAccountEmetteur, userAccountBeneficiaire);
+
+        Transaction savedTransaction = transactionService.saveTransaction(transaction);
+
+        assertNotNull(savedTransaction);
+
+    }
+
+    @Test
+    @Transactional
+    void saveTransactionServiceWithUserInContactList() {
+        //ARRANGE
+        UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");
+        UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
+
+        UserAccount emetteurInDb = userAccountService.saveUserAccount(userAccountEmetteur);
+        UserAccount beneficiaireInDb = userAccountService.saveUserAccount(userAccountBeneficiaire);
+
+        List<UserAccount> emetteurContactList = emetteurInDb.getContacts();
+        emetteurContactList.add(beneficiaireInDb);
+
         Transaction transaction = new Transaction("resto de fin d'année", 2500, "04/12/2022", userAccountEmetteur, userAccountBeneficiaire);
 
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
@@ -92,10 +115,10 @@ public class TransactionServiceTest {
         assertNotNull(savedTransaction);
         assertEquals(2500, transaction.getMontant());
 
-
     }
 
     @Test
+    @Transactional
     void saveTransactionServiceWithUserOutContactList() {
 
         //ARRANGE
