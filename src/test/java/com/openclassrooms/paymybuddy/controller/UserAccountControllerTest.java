@@ -24,20 +24,20 @@ class UserAccountControllerTest {
     @MockBean
     private UserAccountService userAccountService;
 
-    @Test
-    void addUserAcompte() throws Exception {
 
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/addUser")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "    \"solde\": 100,\n" +
-                        "    \"name\": \"leo\",\n" +
-                        "    \"password\": \"agent007\",\n" +
-                        "    \"email\": \"messi@email.com\"\n" +
-                        "}"))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
+//    void addUserAcompte() throws Exception {
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders
+//                        .post("/addUser")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{\n" +
+//                        "    \"solde\": 100,\n" +
+//                        "    \"name\": \"leo\",\n" +
+//                        "    \"password\": \"agent007\",\n" +
+//                        "    \"email\": \"messi@email.com\"\n" +
+//                        "}"))
+//                .andExpect(status().isOk())
+//                .andDo(print());
+//    }
 
 }

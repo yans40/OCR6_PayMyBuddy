@@ -1,8 +1,10 @@
 package com.openclassrooms.paymybuddy.controller;
 
+import com.openclassrooms.paymybuddy.constants.TransfertType;
 import com.openclassrooms.paymybuddy.entity.Transfert;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.service.TransfertService;
+import com.openclassrooms.paymybuddy.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,19 +20,32 @@ public class TransfertController {
     @Autowired
     private TransfertService transfertService;
 
+    @Autowired
+    private UserAccountService userAccountService;
+
     @PostMapping("/transfert/add")
-    public String addTransfert(@RequestBody Transfert transfert, Model model) {
+    public String addTransfert(Transfert transfert, Model model) {
+        log.info("j'enregistre les attributs du transfert");
+        UserAccount userJean = userAccountService.getUserAccountById(3);
+
+        transfert.setUserAccount(userJean);
+//        transfert.setTransfertType(TransfertType.CREDIT);
+//        transfert.setMontant(500);
         transfertService.saveTransfert(transfert);
-        model.addAttribute("transfert", new Transfert());
-        return "redirect:/userAcconut";
+
+        model.addAttribute("transfert", transfert);
+
+        return "redirect:/userAccount";
     }
 
     @GetMapping("/transfert/new")
     public String showTransfertForm(Model model) {
-        log.info("get the transfert form");
+        log.info("je recupère le formulaire de transfert");
         String message = "Register a new transfert!";
-        model.addAttribute("transfert",new Transfert());
-        model.addAttribute("message",message);
+        Transfert transfert = new Transfert();
+        model.addAttribute("transfert", transfert);
+        model.addAttribute("message", message);
+
         return "transfert";
     }
 
