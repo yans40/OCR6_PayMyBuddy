@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>index</title>
+  <link rel="stylesheet" href="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<h2>Contact</h2>
+<div th:if="${contactTrouve != null}">
+<p>Nom: <span th:text="${contactTrouve.name}"></span></p>
+<p>Adresse email: <span th:text="${contactTrouve.eMail}"></span></p>
+<form th:action="@{/addToContacts}" method="post">
+  <input type="hidden" th:field="*{contactTrouve.eMail}" name="">
+  <button type="submit">Ajouter</button>
+</form>
+</div>
+<p th:if="${erreur !=null}" th:text="${erreur}"></p>
+
+<p th:text="${confirmation}"></p>
+</body>
+</html>

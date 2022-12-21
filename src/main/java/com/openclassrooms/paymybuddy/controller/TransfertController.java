@@ -26,16 +26,12 @@ public class TransfertController {
     @PostMapping("/transfert/add")
     public String addTransfert(Transfert transfert, Model model) {
         log.info("j'enregistre les attributs du transfert");
+
         UserAccount userJean = userAccountService.getUserAccountById(3);
-
         transfert.setUserAccount(userJean);
-//        transfert.setTransfertType(TransfertType.CREDIT);
-//        transfert.setMontant(500);
         transfertService.saveTransfert(transfert);
-
         model.addAttribute("transfert", transfert);
-
-        return "redirect:/userAccount";
+        return "redirect:/transfert/add";
     }
 
     @GetMapping("/transfert/new")

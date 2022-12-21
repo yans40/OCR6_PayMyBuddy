@@ -10,7 +10,7 @@
 <h2 th:text="${message}"></h2>
 
 <div class="justify-content-md-around">
-    <form th:action="@{/transfert/add}" method="post" th:object="${transfert}" >
+    <form th:action="@{/transfert/add}" method="post" th:object="${transfert}">
         <div class="mb-3 align-content-center">
             <input type="number" th:field="*{montant}" placeholder="montant">
         </div>
@@ -20,27 +20,16 @@
         <div class="mb-3">
             <input type="text" th:field="*{iban}" placeholder="iban">
         </div>
-<!--        <div class="mb-3" style="max-width: 200px">-->
-<!--            <select type="text" class=" form-select" placeholder=" Transfert Type"-->
-<!--                    aria-label="Select A Type">-->
-<!--                <option selected>Select transfert type</option>-->
-<!--                <option value="CREDIT" th:field="*{transfertType}">CREDIT</option>-->
-<!--                <option value="DEBIT" th:field="*{transfertType}">DEBIT</option>-->
-<!--            </select>-->
-<!--        </div>-->
-        <div class="mb-3">
-            <input type="text" th:field="*{transfertType}" placeholder="type">
+        <div class="mb-3" style="max-width: 200px">
+            <select type="text" th:field="*{transfertType}" class=" form-select" placeholder=" Transfert Type"
+                    aria-label="Select A Type">
+                <option th:each="type:${T(com.openclassrooms.paymybuddy.constants.TransfertType).values()}"
+                        th:value="${type}" th:text="${type}"></option>
+            </select>
         </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
-<!--        <input type="number"  th:Integer="*{montant}" placeholder="montant">-->
-
-<!--        <input type="text" th:field="*{date}" placeholder="date">-->
-
-<!--        <input type="text" th:field="*{iban}" placeholder="iban">-->
-
-<!--        <button type="submit" class="btn btn-primary">Submit</button>-->
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
     </form>
 </div>
 </body>

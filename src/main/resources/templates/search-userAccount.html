@@ -7,11 +7,11 @@
 </head>
 <body style="margin-left: 40%">
 <h2 class="align-content-center">Welcome to contact form</h2>
-<form th:action="@{/userAccount/saveContact}" >
-<p th:text="${message}"></p>
-    <input type="email" placeholder="E-mail">
-
-    <button type="submit" class="btn btn-primary m-2">Save</button>
+<form th:action="@{/search-userAccount}" method="post">
+    <label th:for="email">Adresse email</label>
+    <input type="email" id="email" name="email">
+    <button type="submit" class="btn btn-primary m-2">Rechercher</button>
 </form>
+
 </body>
 </html>

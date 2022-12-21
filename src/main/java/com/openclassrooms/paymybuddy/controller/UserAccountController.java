@@ -3,7 +3,6 @@ package com.openclassrooms.paymybuddy.controller;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,28 +31,38 @@ public class UserAccountController {
         return "user_form";
     }
 
-    @GetMapping("/addContact")
-    public String showNewContactForm(Model model) {
+    @GetMapping("/search-userAccount")
+    public String checkContactMailForm(){
         log.info("get the contact form");
-        try{  String message = "Register a new Contact!";
-            model.addAttribute("message",message);
-
-        }catch (RuntimeException e){
-            System.out.println("on a un runtime exception!");
-        }
-
-        return "contact";
+        return "search-userAccount";
     }
 
-//    @PostMapping("/userAccount/addContact")
-//    public UserAccount addContact(@RequestParam("id") int id, @RequestBody UserAccount userAccountToAddAsContact) {
-//        return userAccountService.saveContact(id, userAccountToAddAsContact);
-//    }
+    @PostMapping("/search-userAccount")
+    public String chercherLeContact(@RequestParam String email, Model model) {
+        log.info("post the mail for checking");
+        UserAccount contactToFinded = userAccountService.findByEmail(email);
+        String message = "Aucun contact trouvé avec le mail suivant  ";
 
-    @PostMapping("/userAccount/saveContact/{email}{id}")
-    public String saveContact(@PathVariable String email, @PathVariable int id, Model model) {
-         userAccountService.addContact(email, id);
-         return "redirect:/userAccount";
+        if(contactToFinded !=null){
+            model.addAttribute("contactTrouve", contactToFinded);
+        } else {
+            model.addAttribute("erreur",message + email);
+        }
+        return "contactFinded-infos";
+    }
+
+    @PostMapping("/addToContacts")
+    public String ajoutContact(@RequestParam(name = "eMail") String email,Model model){
+        log.info("j'enregistre le contact ");
+        UserAccount userJean = userAccountService.getUserAccountById(3);
+        UserAccount contactToFinded = userAccountService.findByEmail(email);
+        List<UserAccount> contacts= userJean.getContacts();
+        contacts.add(contactToFinded);
+        userAccountService.saveContact(userJean.getUserAccount_id(),contactToFinded);
+        String confirmation = "le contact a bien été ajouté!";
+        model.addAttribute("confirmation", confirmation);
+
+      return "contactFinded-infos";
     }
 
 
@@ -66,18 +75,11 @@ public class UserAccountController {
     @GetMapping("/userAccount/{id}")
     public String getUserById(Model model, @PathVariable int id) {
         UserAccount user = userAccountService.getUserAccountById(id);
+        String message = "Welcome M./Mme ";
         model.addAttribute("userAccount", user);
+        model.addAttribute("message", message);
         return "userAccount";
     }
-
-//    @GetMapping("/userAccountByMail")
-//    public String getUserByEmail(@RequestParam(required = false) String email, Model model) {
-//        log.info("récupération du getUser ok ");
-//        UserAccount userByMail = userAccountService.findByEmail(email);
-//        model.addAttribute("userAccount", userByMail);
-//        return "userAccount";
-//
-//    }
 
 
     @GetMapping("/userAccounts")
