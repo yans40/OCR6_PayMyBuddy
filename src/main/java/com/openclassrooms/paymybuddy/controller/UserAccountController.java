@@ -1,6 +1,9 @@
 package com.openclassrooms.paymybuddy.controller;
 
+import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.service.TransactionService;
+import com.openclassrooms.paymybuddy.service.TransfertService;
 import com.openclassrooms.paymybuddy.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
 
+    @Autowired
+    private TransactionService transactionService;
 
     @PostMapping("/userAccount/add")
     public String addUserAccount(UserAccount userAccount, RedirectAttributes ra) {
@@ -74,8 +79,12 @@ public class UserAccountController {
 
     @GetMapping("/userAccount/{id}")
     public String getUserById(Model model, @PathVariable int id) {
+        log.info("je suis sur la page du User");
         UserAccount user = userAccountService.getUserAccountById(id);
         String message = "Welcome M./Mme ";
+        List<UserAccount> contacts = user.getContacts();
+        model.addAttribute("transaction",new Transaction());
+        model.addAttribute("contacts",contacts);
         model.addAttribute("userAccount", user);
         model.addAttribute("message", message);
         return "userAccount";

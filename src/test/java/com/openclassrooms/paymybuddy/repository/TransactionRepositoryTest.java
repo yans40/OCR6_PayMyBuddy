@@ -26,7 +26,6 @@ public class TransactionRepositoryTest {
     void saveTest(){
         Transaction transaction = new Transaction();
         transaction.setMontant(200);
-        transaction.setDate("22/11/2022");
         transaction.setFrais(20);
 
         transactionRepository.save(transaction);

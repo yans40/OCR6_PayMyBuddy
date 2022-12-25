@@ -46,19 +46,17 @@
             <a  th:href="@{/search-userAccount}" class="btn btn-primary">Add Connection</a>
         </div>
     </div>
-    <form class="p-3 bg-light form-control" th:action="@{transaction/add}" method="GET" th:object="${userAccount}">
+    <form class="p-3 bg-light form-control" th:action="@{/transaction/add}" method="post"  th:object="${transaction}">
         <div class="row ">
             <div class="col">
-                <select type="text" class=" form-select" placeholder="Select A Connection"
+                <select type="text" th:field="*{beneficiaire}" class=" form-select" placeholder="Select A Connection"
                         aria-label="Select A Connection">
-                    <option selected>Select A Connection</option>
-                    <option value="1">one</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option th:each="contact : ${contacts}"  th:value="${contact.userAccount_id}"
+                            th:text="${contact.name}">Select A Connection</option>
                 </select>
             </div>
             <div class="col">
-                <input type="text" class="form-control" placeholder="0 €" aria-label="montant">
+                <input type="text" th:field="*{montant}"class="form-control" placeholder="0 €" aria-label="montant">
             </div>
             <div class="col">
                 <input class="btn btn-success" type="submit" value="Pay" style="width: 60%">

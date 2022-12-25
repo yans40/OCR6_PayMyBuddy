@@ -15,8 +15,6 @@ public class Transaction {
     @Column
     private Integer montant;
     @Column
-    private String date;
-    @Column
     private double frais;
 
     @ManyToOne
@@ -30,7 +28,6 @@ public class Transaction {
     public Transaction(String description, Integer montant, String date, UserAccount emetteur, UserAccount beneficiaire) {
         this.description = description;
         this.montant = montant;
-        this.date = date;
         this.emetteur = emetteur;
         this.beneficiaire = beneficiaire;
     }
@@ -38,7 +35,6 @@ public class Transaction {
     public Transaction( String date,Integer montant, Integer frais) {
 
         this.montant = montant;
-        this.date = date;
         this.frais = frais;
     }
 
@@ -87,13 +83,6 @@ public class Transaction {
         this.description = description;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     public double getFrais() {
         return frais;

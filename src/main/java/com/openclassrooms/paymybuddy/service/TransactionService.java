@@ -21,6 +21,7 @@ public class TransactionService {
 
 
     public Transaction saveTransaction(@NotNull Transaction transaction) {
+        log.info("nous sommes dans le transactionService");
         UserAccount emetteur = transaction.getEmetteur();
         UserAccount beneficiaire = transaction.getBeneficiaire();
         int emetteurId=emetteur.getUserAccount_id();
@@ -67,7 +68,6 @@ public class TransactionService {
     public Transaction updateTransaction(@NotNull Transaction updateTransaction, int id) {
         Transaction transactionToUpdate = getTransactionById(id);
 
-        transactionToUpdate.setDate(updateTransaction.getDate());
         transactionToUpdate.setMontant(updateTransaction.getMontant());
         transactionToUpdate.setFrais((int) updateTransaction.getFrais());
 
