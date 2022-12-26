@@ -2,6 +2,8 @@ package com.openclassrooms.paymybuddy.controller;
 
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.exceptions.InsufficientFundsException;
+import com.openclassrooms.paymybuddy.exceptions.NotAContactException;
 import com.openclassrooms.paymybuddy.service.TransactionService;
 import com.openclassrooms.paymybuddy.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,21 +29,25 @@ public class TransactionController {
 
     @PostMapping("/transaction/add")
     public String addTransaction(@ModelAttribute Transaction transaction, Model model) {
-        log.info("transaction saving");
-        UserAccount user=userAccountService.getUserAccountById(1);
-        UserAccount userReceiver =userAccountService.getUserAccountById(2);
+        log.info("transaction sauvegardée");
+        UserAccount user = userAccountService.getUserAccountById(1);
         transaction.setEmetteur(user);
-        transaction.setBeneficiaire(userReceiver);
-        transaction.setDescription("test Noel");
-        try{
-          Transaction transactionSaved= transactionService.saveTransaction(transaction);
-            model.addAttribute("transaction",transactionSaved);
+        transaction.setDescription("test Noel");// faut-il mettre en place la description
+        try {
+            Transaction transactionSaved = transactionService.saveTransaction(transaction);
+            model.addAttribute("transaction", transactionSaved);
             return "success";
 
-        }catch(EntityNotFoundException e){
-            log.info("j'ai une erreur");
-            model.addAttribute("errorMessage","Error: "+e.getMessage());
+        } catch (InsufficientFundsException e) {
+            log.info("exception du solde");
+            model.addAttribute("errorMessage", "Error: les fonds sont Insuffisants");
             return "error";
+        } catch (NotAContactException e) {
+            log.info("exception du contact");
+            model.addAttribute("errorMessage", "Error: il n'est pas dans vos contacts");
+            return "error";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

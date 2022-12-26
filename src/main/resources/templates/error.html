@@ -8,6 +8,15 @@
 <body>
 
 <h1 >Error</h1>
+<div th:if="${errorMessage == 'Error: les fonds sont Insuffisants'}">
+  <h2>Error: les fonds sont Insuffisants</h2>
+</div>
+<div th:if="${errorMessage == 'Error: nous ne retrouvons pas le bénéficiaire dans vos contacts'}">
+  <h2>Error: Error: nous ne retrouvons pa le bénéficiaire dans vos contacts</h2>
+</div>
+<div th:if="${errorMessage.startsWith() == 'Error: '}">
+  <h2 th:text="${errorMessage}"></h2>
+</div>
 
 </body>
 </html>

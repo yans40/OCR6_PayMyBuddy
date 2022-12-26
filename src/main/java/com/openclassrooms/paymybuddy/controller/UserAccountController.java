@@ -83,6 +83,8 @@ public class UserAccountController {
         UserAccount user = userAccountService.getUserAccountById(id);
         String message = "Welcome M./Mme ";
         List<UserAccount> contacts = user.getContacts();
+        List<Transaction> transactionList = user.getTransactionsEmises();
+        model.addAttribute("transactionList", transactionList);
         model.addAttribute("transaction",new Transaction());
         model.addAttribute("contacts",contacts);
         model.addAttribute("userAccount", user);

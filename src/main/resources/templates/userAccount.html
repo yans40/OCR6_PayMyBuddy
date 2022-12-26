@@ -43,20 +43,21 @@
     <div class="d-inline-flex ">
         <p class="p-md-2 mx-lg-auto" style="margin-right: 300px">Send Money</p>
         <div class="col-auto" style="margin-left: 800px" th:object="${userAccount}">
-            <a  th:href="@{/search-userAccount}" class="btn btn-primary">Add Connection</a>
+            <a th:href="@{/search-userAccount}" class="btn btn-primary">Add Connection</a>
         </div>
     </div>
-    <form class="p-3 bg-light form-control" th:action="@{/transaction/add}" method="post"  th:object="${transaction}">
+    <form class="p-3 bg-light form-control" th:action="@{/transaction/add}" method="post" th:object="${transaction}">
         <div class="row ">
             <div class="col">
                 <select type="text" th:field="*{beneficiaire}" class=" form-select" placeholder="Select A Connection"
                         aria-label="Select A Connection">
-                    <option th:each="contact : ${contacts}"  th:value="${contact.userAccount_id}"
-                            th:text="${contact.name}">Select A Connection</option>
+                    <option th:each="contact : ${contacts}" th:value="${contact.userAccount_id}"
+                            th:text="${contact.eMail}">Select A Connection
+                    </option>
                 </select>
             </div>
             <div class="col">
-                <input type="text" th:field="*{montant}"class="form-control" placeholder="0 €" aria-label="montant">
+                <input type="text" th:field="*{montant}" class="form-control" placeholder="0 €" aria-label="montant">
             </div>
             <div class="col">
                 <input class="btn btn-success" type="submit" value="Pay" style="width: 60%">
@@ -75,13 +76,11 @@
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="transaction:${transactionsList}">
-                <tr>
-                    <td>[[${transaction.beneficiaire}]]</td>
-                    <td>[[${transaction.description}]]</td>
-                    <td>[[${transaction.montant}]]</td>
-                </tr>
-            </th:block>
+            <tr th:each="transaction:${userAccount.getTransactionsEmises()}">
+                <td th:text="${transaction.beneficiaire.eMail}"></td>
+                <td th:text="${transaction.description}"></td>
+                <td th:text="${transaction.montant}"></td>
+            </tr>
             </tbody>
         </table>
     </div>

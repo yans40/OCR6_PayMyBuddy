@@ -2,6 +2,7 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.exceptions.NotAContactException;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,7 @@ public class TransactionService {
     private UserAccountService userAccountService;
 
 
-    public Transaction saveTransaction(@NotNull Transaction transaction) {
+    public Transaction saveTransaction(@NotNull Transaction transaction) throws Exception {
         log.info("nous sommes dans le transactionService");
         UserAccount emetteur = transaction.getEmetteur();
         UserAccount beneficiaire = transaction.getBeneficiaire();
@@ -34,11 +35,33 @@ public class TransactionService {
         double montantTransactionTtc = transaction.getMontant() + fraisDeTransaction;// calcul du montant total à imputer à l'emetteur
         transaction.setFrais(fraisDeTransaction);// à ne pas afficher
 
-        if (soldeEmetteurAVerifier < montantTransactionTtc || !isContact(transaction.getEmetteur(), transaction.getBeneficiaire())) {
-            log.info("les conditions ne sont pas réunies pour réaliser la transaction");
-            return null;
-        } else {
-            double nouveauSoldeEmetteur = soldeEmetteurAVerifier - montantTransactionTtc;
+//        if (soldeEmetteurAVerifier < montantTransactionTtc || !isContact(transaction.getEmetteur(), transaction.getBeneficiaire())) {
+//            log.info("les conditions ne sont pas réunies pour réaliser la transaction");
+//            return null;
+//        } else {
+//            double nouveauSoldeEmetteur = soldeEmetteurAVerifier - montantTransactionTtc;
+//            double nouveausoldeBeneficiaire = soldeBeneficiaireAcrediter + transaction.getMontant();
+//
+//            log.info("transaction effectuée vers le compte bénéficiaire");
+//            System.out.println("une transaction de: " + transaction.getMontant() + " a été réalisée vers " + transaction.getBeneficiaire().getName() + " et les frais sont de: " + fraisDeTransaction + " €");
+//            System.out.println("le nouveau solde du compte est: " + nouveauSoldeEmetteur + " €");
+//
+//            emetteur.setSolde(nouveauSoldeEmetteur);
+//            beneficiaire.setSolde(nouveausoldeBeneficiaire);//on set aussi le nouveau solde du bénéficaire...
+//
+//            userAccountService.updateUserAccountBalanceAfterTransfertOrTransaction(emetteur);//on les enregistre
+//            userAccountService.updateUserAccountBalanceAfterTransfertOrTransaction(beneficiaire);
+//
+//            return transactionRepository.save(transaction);
+//        }
+
+        if(soldeEmetteurAVerifier < montantTransactionTtc){
+            throw new Exception("Error : vérifier votre solde les conditions ne sont pas réunies pour effectuer la transaction");
+        }
+        if (!isContact(transaction.getEmetteur(),transaction.getBeneficiaire())){
+            throw new NotAContactException("Error: ce bénéficiaire n'est pas dans vos contacts ajoutez le avant de faire la transaction");
+        }
+        double nouveauSoldeEmetteur = soldeEmetteurAVerifier - montantTransactionTtc;
             double nouveausoldeBeneficiaire = soldeBeneficiaireAcrediter + transaction.getMontant();
 
             log.info("transaction effectuée vers le compte bénéficiaire");
@@ -52,7 +75,6 @@ public class TransactionService {
             userAccountService.updateUserAccountBalanceAfterTransfertOrTransaction(beneficiaire);
 
             return transactionRepository.save(transaction);
-        }
 
     }
 
@@ -65,7 +87,7 @@ public class TransactionService {
         return null;
     }
 
-    public Transaction updateTransaction(@NotNull Transaction updateTransaction, int id) {
+    public Transaction updateTransaction(@NotNull Transaction updateTransaction, int id) throws Exception {
         Transaction transactionToUpdate = getTransactionById(id);
 
         transactionToUpdate.setMontant(updateTransaction.getMontant());
