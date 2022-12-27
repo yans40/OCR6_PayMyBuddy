@@ -2,6 +2,7 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import com.openclassrooms.paymybuddy.repository.UserAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ public class TransactionServiceTest {
 
     @Test
     @Transactional
-    void saveTransactionServiceTestInsufficientBalance() {
+    void saveTransactionServiceTestInsufficientBalance() throws Exception {
 
         UserAccount userAccountEmetteur = new UserAccount(500L, "jean", "test1@mail.com", "test1");
         UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
@@ -55,7 +56,7 @@ public class TransactionServiceTest {
 
     @Test
     @Transactional
-    void saveTransactionServiceTestSufficientBalance() {
+    void saveTransactionServiceTestSufficientBalance() throws Exception {
 
         UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");
         UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
@@ -75,7 +76,7 @@ public class TransactionServiceTest {
 
     @Test
     @Transactional
-    void saveTransactionServiceTestSufficient() {
+    void saveTransactionServiceTestSufficient() throws Exception {
 
 
         UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");
@@ -97,7 +98,7 @@ public class TransactionServiceTest {
 
     @Test
     @Transactional
-    void saveTransactionServiceWithUserInContactList() {
+    void saveTransactionServiceWithUserInContactList() throws Exception {
         //ARRANGE
         UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");
         UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
@@ -119,7 +120,7 @@ public class TransactionServiceTest {
 
     @Test
     @Transactional
-    void saveTransactionServiceWithUserOutContactList() {
+    void saveTransactionServiceWithUserOutContactList() throws Exception {
 
         //ARRANGE
         UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");

@@ -2,6 +2,7 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.Transfert;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
 import com.openclassrooms.paymybuddy.repository.TransfertRepository;
 import com.openclassrooms.paymybuddy.repository.UserAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ public class TransfertServiceTest {
     }
 
     @Test
-    void transfertServiceCreditTest() {
+    void transfertServiceCreditTest() throws MailAlreadyExistException {
 
         UserAccount userAccount = new UserAccount(600, "jean", "jean@mail.com", "motpasse");
         userAccountService.saveUserAccount(userAccount);
@@ -51,7 +52,7 @@ public class TransfertServiceTest {
     }
 
     @Test
-    void transfertServiceDebitTest() {
+    void transfertServiceDebitTest() throws MailAlreadyExistException {
 
         UserAccount userAccount = new UserAccount(600, "jean", "jean@mail.com", "motpasse");
         userAccountService.saveUserAccount(userAccount);
@@ -67,7 +68,7 @@ public class TransfertServiceTest {
     }
 
     @Test
-    void transfertServiceDebitWithInsufficientBalanceTest() {
+    void transfertServiceDebitWithInsufficientBalanceTest() throws MailAlreadyExistException {
 
         UserAccount userAccount = new UserAccount(60, "jean", "jean@mail.com", "motpasse");
         userAccountService.saveUserAccount(userAccount);

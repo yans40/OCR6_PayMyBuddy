@@ -2,8 +2,8 @@ package com.openclassrooms.paymybuddy.controller;
 
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
 import com.openclassrooms.paymybuddy.service.TransactionService;
-import com.openclassrooms.paymybuddy.service.TransfertService;
 import com.openclassrooms.paymybuddy.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,15 @@ public class UserAccountController {
     private TransactionService transactionService;
 
     @PostMapping("/userAccount/add")
-    public String addUserAccount(UserAccount userAccount, RedirectAttributes ra) {
-        userAccountService.saveUserAccount(userAccount);
-        ra.addFlashAttribute("message", "Welcome you are a new PayMyBuddy User please Log in!");
+    public String addUserAccount(UserAccount userAccount, RedirectAttributes ra,Model model) throws MailAlreadyExistException {
+
+        try{
+            userAccountService.saveUserAccount(userAccount);
+            ra.addFlashAttribute("message", "Welcome you are a new PayMyBuddy User please Log in!");
+
+        }catch (MailAlreadyExistException e){
+            ra.addFlashAttribute("message", "ce Mail est déjà utilisé comme Id renseignez un autre mail");
+        }
         return "redirect:/";
     }
 
@@ -57,13 +63,13 @@ public class UserAccountController {
     }
 
     @PostMapping("/addToContacts")
-    public String ajoutContact(@RequestParam(name = "eMail") String email,Model model){
+    public String ajoutContact(@RequestParam(name = "eMail") String email,Model model) throws MailAlreadyExistException {
         log.info("j'enregistre le contact ");
-        UserAccount userJean = userAccountService.getUserAccountById(3);
+        UserAccount currentUser = userAccountService.getUserAccountById(1);
         UserAccount contactToFinded = userAccountService.findByEmail(email);
-        List<UserAccount> contacts= userJean.getContacts();
+        List<UserAccount> contacts= currentUser.getContacts();
         contacts.add(contactToFinded);
-        userAccountService.saveContact(userJean.getUserAccount_id(),contactToFinded);
+        userAccountService.saveContact(currentUser.getUserAccount_id(),contactToFinded);
         String confirmation = "le contact a bien été ajouté!";
         model.addAttribute("confirmation", confirmation);
 
@@ -81,7 +87,7 @@ public class UserAccountController {
     public String getUserById(Model model, @PathVariable int id) {
         log.info("je suis sur la page du User");
         UserAccount user = userAccountService.getUserAccountById(id);
-        String message = "Welcome M./Mme ";
+        String message = "Welcome ";
         List<UserAccount> contacts = user.getContacts();
         List<Transaction> transactionList = user.getTransactionsEmises();
         model.addAttribute("transactionList", transactionList);
@@ -89,6 +95,7 @@ public class UserAccountController {
         model.addAttribute("contacts",contacts);
         model.addAttribute("userAccount", user);
         model.addAttribute("message", message);
+
         return "userAccount";
     }
 

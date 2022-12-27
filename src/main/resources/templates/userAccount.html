@@ -46,12 +46,15 @@
             <a th:href="@{/search-userAccount}" class="btn btn-primary">Add Connection</a>
         </div>
     </div>
+<!--    <div th:if="${confirmation}" class="alert-success text-center" style="background-color: limegreen">-->
+<!--        [[${confirmation}]]-->
+<!--    </div>-->
     <form class="p-3 bg-light form-control" th:action="@{/transaction/add}" method="post" th:object="${transaction}">
         <div class="row ">
             <div class="col">
                 <select type="text" th:field="*{beneficiaire}" class=" form-select" placeholder="Select A Connection"
                         aria-label="Select A Connection">
-                    <option th:each="contact : ${contacts}" th:value="${contact.userAccount_id}"
+                    <option th:each="contact:${contacts}" th:value="${contact.userAccount_id}"
                             th:text="${contact.eMail}">Select A Connection
                     </option>
                 </select>

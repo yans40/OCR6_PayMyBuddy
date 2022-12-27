@@ -1,6 +1,7 @@
 package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
 import com.openclassrooms.paymybuddy.repository.UserAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +17,12 @@ public class UserAccountService {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    public UserAccount saveUserAccount(@NotNull UserAccount userAccountReceive) {
+    public UserAccount saveUserAccount(@NotNull UserAccount userAccountReceive) throws MailAlreadyExistException {
         UserAccount userAccountFind = userAccountRepository.findByEMail(userAccountReceive.geteMail());
 
         if (userAccountFind != null) {
             log.debug("le mail est déja utilisé");
-            return null;
+            throw new MailAlreadyExistException("Error : ce Mail est déjà utilisé comme Id renseignez un autre mail");
         } else {
             return userAccountRepository.save(userAccountReceive);
         }

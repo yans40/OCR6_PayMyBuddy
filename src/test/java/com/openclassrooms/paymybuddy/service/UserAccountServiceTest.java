@@ -1,6 +1,7 @@
 package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.UserAccount;
+import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
 import com.openclassrooms.paymybuddy.repository.UserAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class UserAccountServiceTest {
     }
 
     @Test
-    void saveUserAccountServiceMethodTest() {
+    void saveUserAccountServiceMethodTest() throws MailAlreadyExistException {
         //ARRANGE
 
         UserAccount userAccountToSave = new UserAccount(5000L, "mathis", "math@math.co", "lepasse");
@@ -77,7 +78,7 @@ class UserAccountServiceTest {
 //    }
 //
     @Test
-    void findAllUserAccountServiceTest() {
+    void findAllUserAccountServiceTest() throws MailAlreadyExistException {
         //ARRANGE
         UserAccount userAccount1 = new UserAccount(5000L, "alexandre", "alexlegrand@mail.com", "lepasse");
         UserAccount userAccount2 = new UserAccount(600L, "jean", "jeannewmail@mail.com", "newmotdepasse");
