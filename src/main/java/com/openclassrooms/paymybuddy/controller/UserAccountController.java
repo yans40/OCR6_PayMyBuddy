@@ -24,13 +24,13 @@ public class UserAccountController {
     private TransactionService transactionService;
 
     @PostMapping("/userAccount/add")
-    public String addUserAccount(UserAccount userAccount, RedirectAttributes ra,Model model) throws MailAlreadyExistException {
+    public String addUserAccount(UserAccount userAccount, RedirectAttributes ra, Model model) throws MailAlreadyExistException {
 
-        try{
+        try {
             userAccountService.saveUserAccount(userAccount);
             ra.addFlashAttribute("message", "Welcome you are a new PayMyBuddy User please Log in!");
 
-        }catch (MailAlreadyExistException e){
+        } catch (MailAlreadyExistException e) {
             ra.addFlashAttribute("message", "ce Mail est déjà utilisé comme Id renseignez un autre mail");
         }
         return "redirect:/";
@@ -43,7 +43,7 @@ public class UserAccountController {
     }
 
     @GetMapping("/search-userAccount")
-    public String checkContactMailForm(){
+    public String checkContactMailForm() {
         log.info("get the contact form");
         return "search-userAccount";
     }
@@ -54,26 +54,26 @@ public class UserAccountController {
         UserAccount contactToFinded = userAccountService.findByEmail(email);
         String message = "Aucun contact trouvé avec le mail suivant  ";
 
-        if(contactToFinded !=null){
+        if (contactToFinded != null) {
             model.addAttribute("contactTrouve", contactToFinded);
         } else {
-            model.addAttribute("erreur",message + email);
+            model.addAttribute("erreur", message + email);
         }
         return "contactFinded-infos";
     }
 
     @PostMapping("/addToContacts")
-    public String ajoutContact(@RequestParam(name = "eMail") String email,Model model) throws MailAlreadyExistException {
+    public String ajoutContact(@RequestParam(name = "eMail") String email, Model model) throws MailAlreadyExistException {
         log.info("j'enregistre le contact ");
-        UserAccount currentUser = userAccountService.getUserAccountById(1);
+        UserAccount currentUser = userAccountService.getUserAccountById(4);
         UserAccount contactToFinded = userAccountService.findByEmail(email);
-        List<UserAccount> contacts= currentUser.getContacts();
+        List<UserAccount> contacts = currentUser.getContacts();
         contacts.add(contactToFinded);
-        userAccountService.saveContact(currentUser.getUserAccount_id(),contactToFinded);
+        userAccountService.saveContact(currentUser.getUserAccount_id(), contactToFinded);
         String confirmation = "le contact a bien été ajouté!";
         model.addAttribute("confirmation", confirmation);
 
-      return "contactFinded-infos";
+        return "contactFinded-infos";
     }
 
 
@@ -91,12 +91,34 @@ public class UserAccountController {
         List<UserAccount> contacts = user.getContacts();
         List<Transaction> transactionList = user.getTransactionsEmises();
         model.addAttribute("transactionList", transactionList);
-        model.addAttribute("transaction",new Transaction());
-        model.addAttribute("contacts",contacts);
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("contacts", contacts);
         model.addAttribute("userAccount", user);
         model.addAttribute("message", message);
 
         return "userAccount";
+    }
+
+    @GetMapping("/userAccount/{id}/contacts")
+    public String showContactsList(@PathVariable int id, Model model) {
+        UserAccount user = userAccountService.getUserAccountById(id);
+        List<UserAccount> contacts = user.getContacts();
+        model.addAttribute("contacts", contacts);
+        return "contacts";
+    }
+
+    @GetMapping("/userAccount/{id}/contacts/{contactId}")
+    public String deleteContact(@PathVariable int id, @PathVariable int contactId, Model model) {
+        log.info("delete contact in controller");
+        UserAccount user = userAccountService.getUserAccountById(id);
+        try {
+            userAccountService.removeContact(id, contactId);
+            model.addAttribute("userAccount", user);
+        } catch (Exception e){
+            model.addAttribute("errorMessage","delete fail");
+        }
+
+        return "redirect:/userAccount/{id}/contacts/";
     }
 
 

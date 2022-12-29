@@ -30,9 +30,8 @@ public class TransactionController {
     @PostMapping("/transaction/add")
     public String addTransaction(@ModelAttribute Transaction transaction, Model model) {
         log.info("transaction sauvegardée");
-        UserAccount user = userAccountService.getUserAccountById(1);
+        UserAccount user = userAccountService.getUserAccountById(4);
         transaction.setEmetteur(user);
-        transaction.setDescription("test Noel");// faut-il mettre en place la description
         try {
             Transaction transactionSaved = transactionService.saveTransaction(transaction);
             model.addAttribute("transaction", transactionSaved);
@@ -40,11 +39,11 @@ public class TransactionController {
 
         } catch (InsufficientFundsException e) {
             log.info("exception du solde");
-            model.addAttribute("errorMessage", "Error: les fonds sont Insuffisants");
+            model.addAttribute("errorMessage", " les fonds sont Insuffisants");
             return "error";
         } catch (NotAContactException e) {
             log.info("exception du contact");
-            model.addAttribute("errorMessage", "Error: il n'est pas dans vos contacts");
+            model.addAttribute("errorMessage", "il n'est pas dans vos contacts");//pas pertinent car le user est guidé directement par l'appli
             return "error";
         } catch (Exception e) {
             throw new RuntimeException(e);

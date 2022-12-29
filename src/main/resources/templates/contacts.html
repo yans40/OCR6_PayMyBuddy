@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div align="center">
+    <h1 style="padding-top: 3px;margin-bottom: 2px;margin-top: 16px;">CONTACTS</h1>
+    <div th:text="${successMessage}">
+
+    </div>
+    <table class="table table-bordered">
+        <thead class="bg-success text-white">
+        <tr>
+            <th>Contacts</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contact:${contacts}">
+            <td th:text="${contact.eMail}"></td>
+            <td>
+                <form th:action="@{/userAccount/{id}/contacts/{contactId}(id=${id},contactId=${contact.userAccount_id})}"
+                      method="get">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">Supprimer contact &#128465;</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

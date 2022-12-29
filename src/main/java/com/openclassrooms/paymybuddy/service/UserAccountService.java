@@ -32,10 +32,18 @@ public class UserAccountService {
     public UserAccount saveContact(int id, UserAccount contactToAdd) {
         UserAccount user = getUserAccountById(id);
         List<UserAccount> contacts = user.getContacts();
-        contacts.add(contactToAdd);
         user.setContacts(contacts);
         return userAccountRepository.save(user);
 
+    }
+
+    public UserAccount removeContact(int userId,int contactId){
+       log.info( "delete contact in service");
+        UserAccount user= getUserAccountById(userId);
+        UserAccount userContactToRemove=getUserAccountById(contactId);
+        List<UserAccount> contacts=user.getContacts();
+        contacts.remove(userContactToRemove);
+        return  userAccountRepository.save(user);
     }
 
     public UserAccount findByEmail(String email) {

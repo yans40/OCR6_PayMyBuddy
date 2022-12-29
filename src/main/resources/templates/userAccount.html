@@ -21,7 +21,7 @@
                 <a class="nav-link" href="#">Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="@{userAccount/contacts}">Contact</a>
+                <a class="nav-link" th:href="@{/userAccount/{id}/contacts(id=${userAccount.userAccount_id})}">Contacts</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Log off</a>
@@ -46,7 +46,7 @@
             <a th:href="@{/search-userAccount}" class="btn btn-primary">Add Connection</a>
         </div>
     </div>
-<!--    <div th:if="${confirmation}" class="alert-success text-center" style="background-color: limegreen">-->
+<!--    <div th:if="${confirmation}" class="alert-success text-center" style="background-color: #6632cd">-->
 <!--        [[${confirmation}]]-->
 <!--    </div>-->
     <form class="p-3 bg-light form-control" th:action="@{/transaction/add}" method="post" th:object="${transaction}">
@@ -58,6 +58,9 @@
                             th:text="${contact.eMail}">Select A Connection
                     </option>
                 </select>
+            </div>
+            <div class="col">
+                <input type="text" th:field="*{description}" class="form-control" placeholder="description" aria-label="montant">
             </div>
             <div class="col">
                 <input type="text" th:field="*{montant}" class="form-control" placeholder="0 €" aria-label="montant">
