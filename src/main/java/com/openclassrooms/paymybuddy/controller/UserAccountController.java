@@ -42,19 +42,24 @@ public class UserAccountController {
         return "user_form";
     }
 
-    @GetMapping("/search-userAccount")
-    public String checkContactMailForm() {
+    @GetMapping("/userAccount/{id}/search-userAccount")
+    public String checkContactMailForm(@PathVariable int id,Model model) {
         log.info("get the contact form");
+        UserAccount currentUser = userAccountService.getUserAccountById(id);
+        model.addAttribute("userAccount",currentUser);
         return "search-userAccount";
     }
 
-    @PostMapping("/search-userAccount")
-    public String chercherLeContact(@RequestParam String email, Model model) {
+    @PostMapping("/userAccount/{id}/search-userAccount")
+    public String chercherLeContact(@PathVariable int id,@RequestParam String email, Model model) {
         log.info("post the mail for checking");
+
         UserAccount contactToFinded = userAccountService.findByEmail(email);
         String message = "Aucun contact trouvé avec le mail suivant  ";
+        UserAccount currentUser= userAccountService.getUserAccountById(id);
 
         if (contactToFinded != null) {
+            model.addAttribute("userAccount",currentUser);
             model.addAttribute("contactTrouve", contactToFinded);
         } else {
             model.addAttribute("erreur", message + email);
@@ -62,15 +67,16 @@ public class UserAccountController {
         return "contactFinded-infos";
     }
 
-    @PostMapping("/addToContacts")
-    public String ajoutContact(@RequestParam(name = "eMail") String email, Model model) throws MailAlreadyExistException {
+    @PostMapping("/userAccount/{id}/addToContacts")
+    public String ajoutContact(@PathVariable int id,@RequestParam(name = "eMail") String email, Model model) throws MailAlreadyExistException {
         log.info("j'enregistre le contact ");
-        UserAccount currentUser = userAccountService.getUserAccountById(4);
+        UserAccount currentUser = userAccountService.getUserAccountById(id);
         UserAccount contactToFinded = userAccountService.findByEmail(email);
         List<UserAccount> contacts = currentUser.getContacts();
         contacts.add(contactToFinded);
         userAccountService.saveContact(currentUser.getUserAccount_id(), contactToFinded);
         String confirmation = "le contact a bien été ajouté!";
+        model.addAttribute("userAccount",currentUser);
         model.addAttribute("confirmation", confirmation);
 
         return "contactFinded-infos";

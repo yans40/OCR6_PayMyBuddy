@@ -1,6 +1,5 @@
 package com.openclassrooms.paymybuddy.controller;
 
-import com.openclassrooms.paymybuddy.constants.TransfertType;
 import com.openclassrooms.paymybuddy.entity.Transfert;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.service.TransfertService;
@@ -23,22 +22,23 @@ public class TransfertController {
     @Autowired
     private UserAccountService userAccountService;
 
-    @PostMapping("/transfert/add")
-    public String addTransfert(Transfert transfert, Model model) {
+    @PostMapping("userAccount/{userId}/transfert/add")
+    public String addTransfert(@PathVariable int userId,Transfert transfert, Model model) {
         log.info("j'enregistre les attributs du transfert");
-
-        UserAccount userJean = userAccountService.getUserAccountById(4);
-        transfert.setUserAccount(userJean);
+        UserAccount currentUser = userAccountService.getUserAccountById(userId);
+        transfert.setUserAccount(currentUser);
         transfertService.saveTransfert(transfert);
         model.addAttribute("transfert", transfert);
-        return "redirect:/transfert/add";
+        return "redirect:/userAccount/{userId}";
     }
 
-    @GetMapping("/transfert/new")
-    public String showTransfertForm(Model model) {
+    @GetMapping("userAccount/{userId}/transfert/new")
+    public String showTransfertForm(@PathVariable int userId, Model model) {
         log.info("je recupère le formulaire de transfert");
         String message = "Register a new transfert!";
         Transfert transfert = new Transfert();
+        UserAccount currentUser = userAccountService.getUserAccountById(userId);
+        transfert.setUserAccount(currentUser);
         model.addAttribute("transfert", transfert);
         model.addAttribute("message", message);
 

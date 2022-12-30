@@ -11,7 +11,7 @@
 <div th:if="${contactTrouve != null}">
 <p>Nom: <span th:text="${contactTrouve.name}"></span></p>
 <p>Adresse email: <span th:text="${contactTrouve.eMail}"></span></p>
-<form th:action="@{/addToContacts}" method="post">
+<form th:action="@{/userAccount/{id}/addToContacts(id=${userAccount.userAccount_id})}" method="post">
   <input type="hidden" th:field="*{contactTrouve.eMail}" name="">
   <button type="submit">Ajouter</button>
 </form>

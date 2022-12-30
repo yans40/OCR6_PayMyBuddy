@@ -15,7 +15,7 @@
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/transfert/new}">Transfer</a>
+                <a class="nav-link" th:href="@{/userAccount/{userId}/transfert/new(userId=${userAccount.userAccount_id})}">Transfer</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Profile</a>
@@ -38,18 +38,19 @@
 </nav>
 <div>
     <p th:text="${message} + ${userAccount.getName()}"></p>
+    <p>vous avez un solde de : <a th:text="${userAccount.solde}"></a> euros</p>
 </div>
 <div class="mx-auto" style="width: 1100px">
     <div class="d-inline-flex ">
         <p class="p-md-2 mx-lg-auto" style="margin-right: 300px">Send Money</p>
         <div class="col-auto" style="margin-left: 800px" th:object="${userAccount}">
-            <a th:href="@{/search-userAccount}" class="btn btn-primary">Add Connection</a>
+            <a th:href="@{/userAccount/{id}/search-userAccount(id=${userAccount.userAccount_id})}" class="btn btn-primary">Add Connection</a>
         </div>
     </div>
 <!--    <div th:if="${confirmation}" class="alert-success text-center" style="background-color: #6632cd">-->
 <!--        [[${confirmation}]]-->
 <!--    </div>-->
-    <form class="p-3 bg-light form-control" th:action="@{/transaction/add}" method="post" th:object="${transaction}">
+    <form class="p-3 bg-light form-control" th:action="@{/userAccount/{id}/transaction/add(id=${userAccount.userAccount_id})}" method="post" th:object="${transaction}">
         <div class="row ">
             <div class="col">
                 <select type="text" th:field="*{beneficiaire}" class=" form-select" placeholder="Select A Connection"

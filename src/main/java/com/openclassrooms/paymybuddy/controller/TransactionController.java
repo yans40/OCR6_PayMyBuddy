@@ -7,13 +7,12 @@ import com.openclassrooms.paymybuddy.exceptions.NotAContactException;
 import com.openclassrooms.paymybuddy.service.TransactionService;
 import com.openclassrooms.paymybuddy.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Slf4j
@@ -27,15 +26,17 @@ public class TransactionController {
     private UserAccountService userAccountService;
 
 
-    @PostMapping("/transaction/add")
-    public String addTransaction(@ModelAttribute Transaction transaction, Model model) {
+    @PostMapping("/userAccount/{id}/transaction/add")
+    public String addTransaction(@PathVariable int id, @ModelAttribute Transaction transaction, Model model, RedirectAttributes ra) {
         log.info("transaction sauvegardée");
-        UserAccount user = userAccountService.getUserAccountById(4);
+        UserAccount user = userAccountService.getUserAccountById(id);
         transaction.setEmetteur(user);
+        String messageSuccesTransaction = " la transaction a été enregistrée!";
         try {
             Transaction transactionSaved = transactionService.saveTransaction(transaction);
             model.addAttribute("transaction", transactionSaved);
-            return "success";
+            ra.addFlashAttribute("messageSuccesTransaction", messageSuccesTransaction);
+            return "redirect:/userAccount/{id}";
 
         } catch (InsufficientFundsException e) {
             log.info("exception du solde");
