@@ -71,13 +71,13 @@ public class UserAccountController {
     public String ajoutContact(@PathVariable int id,@RequestParam(name = "eMail") String email, Model model) throws MailAlreadyExistException {
         log.info("j'enregistre le contact ");
         UserAccount currentUser = userAccountService.getUserAccountById(id);
-        UserAccount contactToFinded = userAccountService.findByEmail(email);
-        List<UserAccount> contacts = currentUser.getContacts();
-        contacts.add(contactToFinded);
-        userAccountService.saveContact(currentUser.getUserAccount_id(), contactToFinded);
-        String confirmation = "le contact a bien été ajouté!";
+        UserAccount contactToFind = userAccountService.findByEmail(email);
+//        List<UserAccount> contacts = currentUser.getContacts();
+//        contacts.add(contactToFind);
+        String confirmation = "le contact a bien été ajouté";
+        userAccountService.saveContact(currentUser.getUserAccount_id(), contactToFind);
         model.addAttribute("userAccount",currentUser);
-        model.addAttribute("confirmation", confirmation);
+        model.addAttribute("confirmation",confirmation);
 
         return "contactFinded-infos";
     }

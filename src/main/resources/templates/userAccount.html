@@ -71,7 +71,6 @@
             </div>
         </div>
     </form>
-
     <div>
         <p style="padding-top: 3px;margin-bottom: 2px;margin-top: 16px;">My Transactions</p>
         <table class="table table-bordered">
@@ -79,7 +78,8 @@
             <tr>
                 <th>Contacts</th>
                 <th>Description</th>
-                <th>montant</th>
+                <th>Montant</th>
+                <th>Frais</th>
             </tr>
             </thead>
             <tbody>
@@ -87,6 +87,7 @@
                 <td th:text="${transaction.beneficiaire.eMail}"></td>
                 <td th:text="${transaction.description}"></td>
                 <td th:text="${transaction.montant}"></td>
+                <td th:text="${transaction.frais}"></td>
             </tr>
             </tbody>
         </table>

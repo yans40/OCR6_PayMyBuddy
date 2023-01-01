@@ -32,6 +32,7 @@ public class UserAccountService {
     public UserAccount saveContact(int id, UserAccount contactToAdd) {
         UserAccount user = getUserAccountById(id);
         List<UserAccount> contacts = user.getContacts();
+        contacts.add(contactToAdd);
         user.setContacts(contacts);
         return userAccountRepository.save(user);
 

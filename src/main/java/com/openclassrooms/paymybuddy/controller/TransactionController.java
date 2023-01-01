@@ -31,16 +31,15 @@ public class TransactionController {
         log.info("transaction sauvegardée");
         UserAccount user = userAccountService.getUserAccountById(id);
         transaction.setEmetteur(user);
-        String messageSuccesTransaction = " la transaction a été enregistrée!";
+
         try {
             Transaction transactionSaved = transactionService.saveTransaction(transaction);
             model.addAttribute("transaction", transactionSaved);
-            ra.addFlashAttribute("messageSuccesTransaction", messageSuccesTransaction);
             return "redirect:/userAccount/{id}";
 
         } catch (InsufficientFundsException e) {
             log.info("exception du solde");
-            model.addAttribute("errorMessage", " les fonds sont Insuffisants");
+            model.addAttribute("errorMessage", " Error: les fonds sont Insuffisants");
             return "error";
         } catch (NotAContactException e) {
             log.info("exception du contact");
