@@ -6,6 +6,7 @@ import com.openclassrooms.paymybuddy.repository.UserAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +20,13 @@ public class UserAccountService {
 
     public UserAccount saveUserAccount(@NotNull UserAccount userAccountReceive) throws MailAlreadyExistException {
         UserAccount userAccountFind = userAccountRepository.findByEMail(userAccountReceive.geteMail());
-
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (userAccountFind != null) {
             log.debug("le mail est déja utilisé");
             throw new MailAlreadyExistException("Error : ce Mail est déjà utilisé comme Id renseignez un autre mail");
         } else {
+            String passwordEncode=bCryptPasswordEncoder.encode(userAccountReceive.getPassword());
+            userAccountReceive.setPassword(passwordEncode);
             return userAccountRepository.save(userAccountReceive);
         }
 
