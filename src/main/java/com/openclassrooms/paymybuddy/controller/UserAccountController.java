@@ -93,7 +93,6 @@ public class UserAccountController {
     @RequestMapping(value = "/userAccount", method = RequestMethod.GET)
     public String showUserHomePage(Model model) {
 
-//        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         log.info(currentPrincipalName);
@@ -113,22 +112,6 @@ public class UserAccountController {
 
         return "userAccountDisplay";
     }
-
-//    @PostMapping("/userAccount/{id}")
-//    public String getUserById(Model model, @PathVariable int id) {
-//        log.info("je suis sur la page du  user avec toutes les infos");
-//        UserAccount user = userAccountService.getUserAccountById(id);
-//        String message = "Bienvenue ";
-//        List<UserAccount> contacts = user.getContacts();
-//        List<Transaction> transactionList = user.getTransactionsEmises();
-//        model.addAttribute("transactionList", transactionList);
-//        model.addAttribute("transaction", new Transaction());
-//        model.addAttribute("contacts", contacts);
-//        model.addAttribute("userAccount", user);
-//        model.addAttribute("message", message);
-//
-//        return "userAccount";
-//    }
 
 
     @GetMapping("/userAccount/{id}/contacts")
@@ -153,6 +136,13 @@ public class UserAccountController {
         return "redirect:/userAccount/{id}/contacts/";
     }
 
+
+    @RequestMapping(value = "/perform_logout",method = RequestMethod.POST)
+    public String logout(RedirectAttributes ra){
+       log.info("in log out!");
+        ra.addAttribute("message", "vous êtes bien déconnecté A bientôt!");
+        return "redirect:/";
+    }
 
     @GetMapping("/userAccounts")
     public List<UserAccount> getUsersList() {
