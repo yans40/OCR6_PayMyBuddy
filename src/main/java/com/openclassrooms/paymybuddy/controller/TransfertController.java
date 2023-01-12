@@ -30,7 +30,7 @@ public class TransfertController {
         transfert.setUserAccount(currentUser);
         transfertService.saveTransfert(transfert);
         model.addAttribute("transfert", transfert);
-        return "redirect:/userAccount/{userId}";
+        return "redirect:/userAccount";
     }
 
     @GetMapping("userAccount/{userId}/transfert/new")

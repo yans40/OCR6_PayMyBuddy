@@ -8,11 +8,11 @@
 <body>
 
 <div>
-    <h2><span class="badge bg-success p-2 text-white ">PayMyBuddy</span></h2>
+    <h2><span class="badge bg-success p-2 text-white " onclick="homePageReturn()" >PayMyBuddy</span></h2>
 </div>
 
 <div align="center">
-    <h1 style="padding-top: 3px;margin-bottom: 2px;margin-top: 16px;">CONTACTS</h1>
+    <h1 style="padding-top: 3px;margin-bottom: 2px;margin-top: 16px;" >CONTACTS</h1>
     <table class="table table-bordered">
         <thead class="bg-success text-white">
         <tr>
@@ -34,5 +34,10 @@
         </tbody>
     </table>
 </div>
+<script type="text/javascript">
+    function homePageReturn(){
+        window.location="[[@{/userAccount}]]";
+    }
+</script>
 </body>
 </html>

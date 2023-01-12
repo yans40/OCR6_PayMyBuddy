@@ -3,10 +3,11 @@ package com.openclassrooms.paymybuddy.controller;
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
-import com.openclassrooms.paymybuddy.service.TransactionService;
 import com.openclassrooms.paymybuddy.service.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,15 @@ import java.util.List;
 @Slf4j
 @Controller
 public class UserAccountController {
+
     @Autowired
     private UserAccountService userAccountService;
 
-    @Autowired
-    private TransactionService transactionService;
+
+
 
     @PostMapping("/userAccount/add")
-    public String addUserAccount(UserAccount userAccount, RedirectAttributes ra, Model model) throws MailAlreadyExistException {
+    public String addUserAccount(UserAccount userAccount, RedirectAttributes ra) throws MailAlreadyExistException {
 
         try {
             userAccountService.saveUserAccount(userAccount);
@@ -43,23 +45,23 @@ public class UserAccountController {
     }
 
     @GetMapping("/userAccount/{id}/search-userAccount")
-    public String checkContactMailForm(@PathVariable int id,Model model) {
+    public String checkContactMailForm(@PathVariable int id, Model model) {
         log.info("get the contact form");
         UserAccount currentUser = userAccountService.getUserAccountById(id);
-        model.addAttribute("userAccount",currentUser);
+        model.addAttribute("userAccount", currentUser);
         return "search-userAccount";
     }
 
     @PostMapping("/userAccount/{id}/search-userAccount")
-    public String chercherLeContact(@PathVariable int id,@RequestParam String email, Model model) {
+    public String chercherLeContact(@PathVariable int id, @RequestParam String email, Model model) {
         log.info("post the mail for checking");
 
         UserAccount contactToFinded = userAccountService.findByEmail(email);
         String message = "Aucun contact trouvé avec le mail suivant  ";
-        UserAccount currentUser= userAccountService.getUserAccountById(id);
+        UserAccount currentUser = userAccountService.getUserAccountById(id);
 
         if (contactToFinded != null) {
-            model.addAttribute("userAccount",currentUser);
+            model.addAttribute("userAccount", currentUser);
             model.addAttribute("contactTrouve", contactToFinded);
         } else {
             model.addAttribute("erreur", message + email);
@@ -68,32 +70,39 @@ public class UserAccountController {
     }
 
     @PostMapping("/userAccount/{id}/addToContacts")
-    public String ajoutContact(@PathVariable int id,@RequestParam(name = "eMail") String email, Model model) throws MailAlreadyExistException {
+    public String ajoutContact(@PathVariable int id, @RequestParam(name = "eMail") String email, Model model) throws MailAlreadyExistException {
         log.info("j'enregistre le contact ");
         UserAccount currentUser = userAccountService.getUserAccountById(id);
         UserAccount contactToFind = userAccountService.findByEmail(email);
-//        List<UserAccount> contacts = currentUser.getContacts();
-//        contacts.add(contactToFind);
         String confirmation = "le contact a bien été ajouté";
         userAccountService.saveContact(currentUser.getUserAccount_id(), contactToFind);
-        model.addAttribute("userAccount",currentUser);
-        model.addAttribute("confirmation",confirmation);
+        model.addAttribute("userAccount", currentUser);
+        model.addAttribute("confirmation", confirmation);
 
         return "contactFinded-infos";
     }
 
 
-    @GetMapping("userAccount/connection")
-    public String connexion(Model model) {
+    @GetMapping("/userAccount/connection")
+    public String connexion(Model model) throws Exception {
         model.addAttribute("userAccount", new UserAccount());
-        return "login";
+        return "redirect:/userAccount";
     }
 
-    @GetMapping("/userAccount/{id}")
-    public String getUserById(Model model, @PathVariable int id) {
-        log.info("je suis sur la page du User");
-        UserAccount user = userAccountService.getUserAccountById(id);
-        String message = "Welcome ";
+
+    @RequestMapping(value = "/userAccount", method = RequestMethod.GET)
+    public String showUserHomePage(Model model) {
+
+//        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        log.info(currentPrincipalName);
+
+        UserAccount user = userAccountService.findByEmail(currentPrincipalName);
+
+
+        log.info("User Home Page");
+        String message = "Bienvenue ";
         List<UserAccount> contacts = user.getContacts();
         List<Transaction> transactionList = user.getTransactionsEmises();
         model.addAttribute("transactionList", transactionList);
@@ -102,8 +111,25 @@ public class UserAccountController {
         model.addAttribute("userAccount", user);
         model.addAttribute("message", message);
 
-        return "userAccount";
+        return "userAccountDisplay";
     }
+
+//    @PostMapping("/userAccount/{id}")
+//    public String getUserById(Model model, @PathVariable int id) {
+//        log.info("je suis sur la page du  user avec toutes les infos");
+//        UserAccount user = userAccountService.getUserAccountById(id);
+//        String message = "Bienvenue ";
+//        List<UserAccount> contacts = user.getContacts();
+//        List<Transaction> transactionList = user.getTransactionsEmises();
+//        model.addAttribute("transactionList", transactionList);
+//        model.addAttribute("transaction", new Transaction());
+//        model.addAttribute("contacts", contacts);
+//        model.addAttribute("userAccount", user);
+//        model.addAttribute("message", message);
+//
+//        return "userAccount";
+//    }
+
 
     @GetMapping("/userAccount/{id}/contacts")
     public String showContactsList(@PathVariable int id, Model model) {
@@ -120,8 +146,8 @@ public class UserAccountController {
         try {
             userAccountService.removeContact(id, contactId);
             model.addAttribute("userAccount", user);
-        } catch (Exception e){
-            model.addAttribute("errorMessage","delete fail");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "delete fail");
         }
 
         return "redirect:/userAccount/{id}/contacts/";

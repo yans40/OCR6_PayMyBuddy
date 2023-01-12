@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>index</title>
+  <title>contactTrouve</title>
   <link rel="stylesheet" href="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
@@ -19,5 +19,13 @@
 <p th:if="${erreur !=null}" th:text="${erreur}"></p>
 
 <p th:text="${confirmation}"></p>
+
+<button onclick="homePageReturn()">HomePage</button>
+
+<script type="text/javascript">
+  function homePageReturn(){
+    window.location="[[@{/userAccount}]]";
+  }
+</script>
 </body>
 </html>

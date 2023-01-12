@@ -35,7 +35,7 @@ public class TransactionController {
         try {
             Transaction transactionSaved = transactionService.saveTransaction(transaction);
             model.addAttribute("transaction", transactionSaved);
-            return "redirect:/userAccount/{id}";
+            return "redirect:/userAccount";
 
         } catch (InsufficientFundsException e) {
             log.info("exception du solde");
@@ -55,7 +55,7 @@ public class TransactionController {
     public String getAllTransactions(Model model) {
         List<Transaction> transactionsList = transactionService.findAllTransactions();
         model.addAttribute("transactionsList", transactionsList);
-        return "userAccount";
+        return "userAccountDisplay";
     }
 
     @GetMapping("/transaction/{id}")

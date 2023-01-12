@@ -2,6 +2,7 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.UserAccount;
 import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
+
 import com.openclassrooms.paymybuddy.repository.UserAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -17,37 +18,39 @@ import java.util.NoSuchElementException;
 public class UserAccountService {
     @Autowired
     private UserAccountRepository userAccountRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserAccount saveUserAccount(@NotNull UserAccount userAccountReceive) throws MailAlreadyExistException {
         UserAccount userAccountFind = userAccountRepository.findByEMail(userAccountReceive.geteMail());
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
         if (userAccountFind != null) {
             log.debug("le mail est déja utilisé");
             throw new MailAlreadyExistException("Error : ce Mail est déjà utilisé comme Id renseignez un autre mail");
         } else {
-            String passwordEncode=bCryptPasswordEncoder.encode(userAccountReceive.getPassword());
-            userAccountReceive.setPassword(passwordEncode);
+            String hashPassWord =bCryptPasswordEncoder.encode(userAccountReceive.getPassword());
+            userAccountReceive.setPassword(hashPassWord);
             return userAccountRepository.save(userAccountReceive);
         }
 
     }
 
-    public UserAccount saveContact(int id, UserAccount contactToAdd) {
+    public void saveContact(int id, UserAccount contactToAdd) {
         UserAccount user = getUserAccountById(id);
         List<UserAccount> contacts = user.getContacts();
         contacts.add(contactToAdd);
         user.setContacts(contacts);
-        return userAccountRepository.save(user);
+        userAccountRepository.save(user);
 
     }
 
-    public UserAccount removeContact(int userId,int contactId){
+    public void removeContact(int userId, int contactId){
        log.info( "delete contact in service");
         UserAccount user= getUserAccountById(userId);
         UserAccount userContactToRemove=getUserAccountById(contactId);
         List<UserAccount> contacts=user.getContacts();
         contacts.remove(userContactToRemove);
-        return  userAccountRepository.save(user);
+        userAccountRepository.save(user);
     }
 
     public UserAccount findByEmail(String email) {
