@@ -40,14 +40,15 @@ public class TransactionController {
         } catch (InsufficientFundsException e) {
             log.info("exception du solde");
             model.addAttribute("errorMessage", " Error: les fonds sont Insuffisants");
-            return "error";
+
         } catch (NotAContactException e) {
             log.info("exception du contact");
             model.addAttribute("errorMessage", "il n'est pas dans vos contacts");//pas pertinent car le user est guidé directement par l'appli
-            return "error";
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return "error";
     }
 
 

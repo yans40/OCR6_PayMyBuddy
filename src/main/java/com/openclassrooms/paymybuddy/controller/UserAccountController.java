@@ -25,23 +25,24 @@ public class UserAccountController {
 
 
 
-    @PostMapping("/userAccount/add")
+    @RequestMapping(value = "/userAccount/add",method = RequestMethod.POST)
     public String addUserAccount(UserAccount userAccount, RedirectAttributes ra) throws MailAlreadyExistException {
-
+log.info("controller user add method ");
         try {
             userAccountService.saveUserAccount(userAccount);
             ra.addFlashAttribute("message", "Welcome you are a new PayMyBuddy User please Log in!");
-
+            return "redirect:/";
         } catch (MailAlreadyExistException e) {
             ra.addFlashAttribute("message", "ce Mail est déjà utilisé comme Id renseignez un autre mail");
         }
         return "redirect:/";
     }
 
+
     @GetMapping("/userAccount/new")
     public String showNewForm(Model model) {
         model.addAttribute("userAccount", new UserAccount());
-        return "user_form";
+        return "subscription";
     }
 
     @GetMapping("/userAccount/{id}/search-userAccount")

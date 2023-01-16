@@ -88,7 +88,7 @@ public class TransactionService {
     boolean isContact(@NotNull UserAccount emetteur, UserAccount beneficiaire) {
         int emetteurId = emetteur.getUserAccount_id();
         List<UserAccount> contacts = userAccountService.getUserAccountById(emetteurId).getContacts();
-        ;
+
         boolean result = false;
         for (UserAccount contact : contacts) {
             if (contact.geteMail().equals(beneficiaire.geteMail())) {

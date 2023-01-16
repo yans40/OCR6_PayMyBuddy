@@ -11,12 +11,9 @@
 
 <div class="justify-content-md-around">
     <form th:action="@{/userAccount/{userId}/transfert/add(userId=${userId})}" method="post" th:object="${transfert}">
-        <div th:text="${transfert.userAccount.name}"></div>
+<!--        <div th:text="${transfert.userAccount.name}"></div>-->
         <div class="mb-3 align-content-center">
             <input type="number" th:field="*{montant}" placeholder="montant">
-        </div>
-        <div class="mb-3">
-            <input type="text" th:field="*{date}" placeholder="date">
         </div>
         <div class="mb-3">
             <input type="text" th:field="*{iban}" placeholder="iban">

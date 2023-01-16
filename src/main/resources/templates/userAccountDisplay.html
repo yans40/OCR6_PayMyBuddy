@@ -30,12 +30,10 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/userAccount/{id}/contacts(id=${userAccount.userAccount_id})}">Contacts</a>
             </li>
-            <li class="nav-item">
+<!--            <li class="nav-item">-->
 <!--                <a class="nav-link" th:href="@{/perform_logout}">Log off</a>-->
-                <form th:action="@{/perform_logout}" method="post">
-                    <input type="submit" value="LOGOUT"></input>
-                </form>
-            </li>
+
+<!--            </li>-->
         </ul>
 
     </div>
@@ -43,12 +41,17 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
-<!--        <li class="breadcrumb-item active" aria-current="page">Transfer</li>-->
     </ol>
 </nav>
-<div>
-    <p th:text="${message} + ${userAccount.getName()}"></p>
-    <p>vous avez un solde de : <a th:text="${userAccount.solde}"></a> euros</p>
+
+<div class="card" style="width: 18rem;" >
+    <div class="card-body">
+        <h5 class="card-title" th:text="${message} + ${userAccount.getName().toUpperCase()}">Card title</h5>
+        <p class="card-text">vous avez un solde de : <a th:text="${userAccount.solde}"></a> €</p>
+    </div>
+    <form th:action="@{/perform_logout}" method="post">
+        <input type="submit" value="log off" style="background-color: #32cd8c"></input>
+    </form>
 </div>
 <div class="mx-auto" style="width: 1100px">
     <div class="d-inline-flex ">
@@ -71,7 +74,7 @@
                 </select>
             </div>
             <div class="col">
-                <input type="text" th:field="*{description}" class="form-control" placeholder="description" aria-label="montant">
+                <input type="text" th:field="*{description}" required minlength="2" maxlength="100" class="form-control" placeholder="description" aria-label="montant">
             </div>
             <div class="col">
                 <input type="text" th:field="*{montant}" class="form-control" placeholder="0 €" aria-label="montant">
@@ -83,7 +86,7 @@
     </form>
     <div>
         <p style="padding-top: 3px;margin-bottom: 2px;margin-top: 16px;">My Transactions</p>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead class="bg-success text-white">
             <tr>
                 <th>Contacts</th>
@@ -95,7 +98,12 @@
             <tr th:each="transaction:${userAccount.getTransactionsEmises()}">
                 <td th:text="${transaction.beneficiaire.eMail}"></td>
                 <td th:text="${transaction.description}"></td>
-                <td th:text="${transaction.montant}"></td>
+                <td th:text="'- '+ ${transaction.montant}+' €'"></td>
+            </tr>
+            <tr th:each="transaction:${userAccount.getTransactionsRecues()}">
+                <td th:text="${transaction.emetteur.eMail}"></td>
+                <td th:text="${transaction.description}"></td>
+                <td th:text="${'+ '+transaction.montant}+' €'"></td>
             </tr>
             </tbody>
         </table>
