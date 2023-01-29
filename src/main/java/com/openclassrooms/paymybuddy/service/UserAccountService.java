@@ -91,13 +91,4 @@ public class UserAccountService {
         return userAccountRepository.findAll();
     }
 
-    public String addContact(String emailReceive, int id) {
-        UserAccount userToAddAsContact = findByEmail(emailReceive);
-        UserAccount user = getUserAccountById(id);
-        List<UserAccount> contacts= user.getContacts();
-        contacts.add(userToAddAsContact);
-        userAccountRepository.save(user);
-
-        return emailReceive;
-    }
 }
