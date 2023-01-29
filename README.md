@@ -17,14 +17,7 @@ create table if not exists transaction
     montant        int          null,
     beneficiaire   int          null,
     emetteur       int          null
-)
-    engine = MyISAM;
-
-create index FK73wl19m4t821gca3wllggwhk5
-    on transaction (emetteur);
-
-create index FKqa81s61benxx0mtda90f9ri7m
-    on transaction (beneficiaire);
+);
 
 create table if not exists transfert
 (
@@ -35,11 +28,8 @@ create table if not exists transfert
     montant                      int          null,
     transfert_type               int          null,
     user_account_user_account_id int          null
-)
-    engine = MyISAM;
+);
 
-create index FKtb654u1uxq4ip4kx9btexybkj
-    on transfert (user_account_user_account_id);
 
 create table if not exists user_account
 (
@@ -49,18 +39,11 @@ create table if not exists user_account
     name            varchar(255) null,
     password        varchar(255) null,
     solde           bigint       null
-)
-    engine = MyISAM;
+);
 
 create table if not exists user_contacts
 (
     user_account_id int not null,
     user_contact_id int not null
-)
-    engine = MyISAM;
+);
 
-create index FK6y03d5re7axqup94dd095yjgn
-    on user_contacts (user_contact_id);
-
-create index FK7ck29uay6jwpg2glnq00ayuy8
-    on user_contacts (user_account_id);
