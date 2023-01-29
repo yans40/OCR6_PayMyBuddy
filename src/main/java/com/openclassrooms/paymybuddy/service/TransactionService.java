@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -21,7 +22,7 @@ public class TransactionService {
     @Autowired
     private UserAccountService userAccountService;
 
-
+    @Transactional
     public Transaction saveTransaction(@NotNull Transaction transaction) throws Exception {
         log.info("nous sommes dans le transactionService");
         UserAccount emetteur = transaction.getEmetteur();
