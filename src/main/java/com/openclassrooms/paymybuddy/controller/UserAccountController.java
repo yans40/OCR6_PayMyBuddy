@@ -25,7 +25,7 @@ public class UserAccountController {
 
 
 
-    @RequestMapping(value = "/userAccount/add",method = RequestMethod.POST)
+    @PostMapping(value = "/userAccount/add")
     public String addUserAccount(UserAccount userAccount, RedirectAttributes ra) throws MailAlreadyExistException {
 log.info("controller user add method ");
         try {

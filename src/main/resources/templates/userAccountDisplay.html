@@ -30,10 +30,6 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/userAccount/{id}/contacts(id=${userAccount.userAccount_id})}">Contacts</a>
             </li>
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" th:href="@{/perform_logout}">Log off</a>-->
-
-<!--            </li>-->
         </ul>
 
     </div>
@@ -60,9 +56,6 @@
             <a th:href="@{/userAccount/{id}/search-userAccount(id=${userAccount.userAccount_id})}" class="btn btn-primary">Add Connection</a>
         </div>
     </div>
-<!--    <div th:if="${confirmation}" class="alert-success text-center" style="background-color: #6632cd">-->
-<!--        [[${confirmation}]]-->
-<!--    </div>-->
     <form class="p-3 bg-light form-control" th:action="@{/userAccount/{id}/transaction/add(id=${userAccount.userAccount_id})}" method="post" th:object="${transaction}">
         <div class="row ">
             <div class="col">
