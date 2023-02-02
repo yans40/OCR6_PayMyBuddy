@@ -91,7 +91,7 @@ log.info("controller user add method ");
     }
 
 
-    @RequestMapping(value = "/userAccount", method = RequestMethod.GET)
+    @GetMapping ("/userAccount")
     public String showUserHomePage(Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

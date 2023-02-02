@@ -25,7 +25,7 @@ public class TransactionRepositoryTest {
     @Test
     void saveTest(){
         Transaction transaction = new Transaction();
-        transaction.setMontant(200);
+        transaction.setMontant(200F);
         transaction.setFrais(20);
 
         transactionRepository.save(transaction);
@@ -39,7 +39,8 @@ public class TransactionRepositoryTest {
     @Test
     void findTest(){
 
-        Transaction transaction = new Transaction("12/11/2022", 45, 5);
+        Transaction transaction = new Transaction();
+        transaction.setMontant(45);
         Transaction transactionsaved = transactionRepository.save(transaction);
 
         Optional<Transaction> transactionToFind = transactionRepository.findById(transactionsaved.getTransaction_Id());
@@ -50,7 +51,7 @@ public class TransactionRepositoryTest {
 
     @Test
     void deleteTest(){
-        Transaction transaction = new Transaction("12/11/2022", 45, 5);
+        Transaction transaction = new Transaction();
         Transaction transactionsaved = transactionRepository.save(transaction);
 
         transactionRepository.delete(transactionsaved);

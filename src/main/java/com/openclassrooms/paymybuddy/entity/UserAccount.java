@@ -12,16 +12,16 @@ import java.util.List;
 @Table(name = "user_account")
 public class UserAccount {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
     private int userAccount_id;
     @Column
     private double solde;
-    @Column
+    @Column(nullable = false)
     private String name;
-    @Column
+    @Column(unique = true, nullable = false)
     private String eMail;
-    @Column
+    @Column(nullable = false)
     private String password;
     @JsonIgnore
     @OneToMany(mappedBy = "emetteur")

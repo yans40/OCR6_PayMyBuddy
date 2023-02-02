@@ -8,23 +8,21 @@ import javax.persistence.*;
 @Table
 public class Transfert {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
     private Integer transfert_id;
-    @Column
-    private String date;
-    @Column
+    @Column(nullable = false)
     private TransfertType transfertType;
-    @Column
-    private Integer montant;
-    @Column
+    @Column(nullable = false)
+    private double montant;
+    @Column(nullable = false)
     private String Iban;
 
     @ManyToOne
     private UserAccount userAccount;
 
-    public Transfert(String date, TransfertType transfertType, Integer montant, String iban, UserAccount userAccount) {
-        this.date = date;
+    public Transfert(TransfertType transfertType, double montant, String iban, UserAccount userAccount) {
+
         this.transfertType = transfertType;
         this.montant = montant;
         this.Iban = iban;
@@ -43,11 +41,10 @@ public class Transfert {
 
     }
 
-    public Transfert(Integer montant, String iban, String date, TransfertType transfertType) {
+    public Transfert(double montant, String iban, TransfertType transfertType) {
 
         this.montant = montant;
         this.Iban = iban;
-        this.date = date;
         this.transfertType = transfertType;
     }
 
@@ -76,19 +73,12 @@ public class Transfert {
         this.transfert_id = transfert_id;
     }
 
-    public Integer getMontant() {
+    public double getMontant() {
         return montant;
     }
 
-    public void setMontant(Integer montant) {
+    public void setMontant(double montant) {
         this.montant = montant;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 }

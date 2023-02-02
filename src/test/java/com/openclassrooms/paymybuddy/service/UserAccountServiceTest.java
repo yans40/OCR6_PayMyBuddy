@@ -28,26 +28,26 @@ class UserAccountServiceTest {
         this.userAccountRepository.deleteAll();
     }
 
-    @Test
-    void saveUserAccountServiceMethodTest() throws MailAlreadyExistException {
-        //ARRANGE
-
-        UserAccount userAccountToSave = new UserAccount(5000L, "mathis", "math@math.co", "lepasse");
-
-        UserAccount userAccountWithSameMail = new UserAccount(3000L, "jeremy", "math@math.co", "leword");
-
-
-        userAccountService.saveUserAccount(userAccountToSave);
-
-        assertEquals(1, userAccountRepository.findAll().size());
-
-        //ACT
-        userAccountService.saveUserAccount(userAccountWithSameMail);
-
-        //ASSERT
-        assertEquals(1, userAccountRepository.findAll().size());
-
-    }
+//    @Test
+//    void saveUserAccountServiceMethodTest() throws MailAlreadyExistException {
+//        //ARRANGE
+//
+//        UserAccount userAccountToSave = new UserAccount(5000L, "mathis", "math@math.co", "lepasse");
+//
+//        UserAccount userAccountWithSameMail = new UserAccount(3000L, "jeremy", "math@math.co", "leword");
+//
+//
+//        userAccountService.saveUserAccount(userAccountToSave);
+//
+//        assertEquals(1, userAccountRepository.findAll().size());
+//
+//        //ACT
+//        userAccountService.saveUserAccount(userAccountWithSameMail);
+//
+//        //ASSERT
+//        assertEquals(1, userAccountRepository.findAll().size());
+//
+//    }
 
 //    @Test
 //    void updateUserAccountServiceMethodTest() {

@@ -1,46 +1,46 @@
 package com.openclassrooms.paymybuddy.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+
+
 @Entity
+@Data
 @Table
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
     private int transaction_Id;
     @Column
     private String description;
-    @Column
-    private Integer montant;
-    @Column
+
+    @Column(nullable = false)
+    private double montant;
+    @Column(nullable = false)
     private double frais;
 
     @ManyToOne
-    @JoinColumn(name = "emetteur")
+    @JoinColumn(name = "emetteur",nullable = false)
     private UserAccount emetteur;
 
     @ManyToOne
-    @JoinColumn(name = "beneficiaire")
+    @JoinColumn(name = "beneficiaire",nullable = false)
     private UserAccount beneficiaire;
 
-    public Transaction(String description, Integer montant, String date, UserAccount emetteur, UserAccount beneficiaire) {
+    public Transaction(String description, double montant, UserAccount emetteur, UserAccount beneficiaire) {
         this.description = description;
         this.montant = montant;
         this.emetteur = emetteur;
         this.beneficiaire = beneficiaire;
     }
 
-    public Transaction( String date,Integer montant, Integer frais) {
-
-        this.montant = montant;
-        this.frais = frais;
-    }
 
     public Transaction() {
     }
-
 
 
     public UserAccount getEmetteur() {
@@ -67,11 +67,11 @@ public class Transaction {
         this.transaction_Id = transaction_Id;
     }
 
-    public Integer getMontant() {
+    public double getMontant() {
         return montant;
     }
 
-    public void setMontant(Integer montant) {
+    public void setMontant(double montant) {
         this.montant = montant;
     }
 

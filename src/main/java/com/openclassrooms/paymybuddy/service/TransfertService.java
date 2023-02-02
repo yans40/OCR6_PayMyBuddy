@@ -76,7 +76,6 @@ public class TransfertService {
 
         Transfert transfertToUpdate = getTransfertById(id);
         transfertToUpdate.setMontant(updatedTransfert.getMontant());
-        transfertToUpdate.setDate(updatedTransfert.getDate());
         transfertToUpdate.setIban(updatedTransfert.getIban());
         transfertToUpdate.setTransfertType(updatedTransfert.getTransfertType());
 

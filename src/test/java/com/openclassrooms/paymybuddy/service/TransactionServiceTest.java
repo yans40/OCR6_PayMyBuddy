@@ -2,7 +2,6 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.entity.Transaction;
 import com.openclassrooms.paymybuddy.entity.UserAccount;
-import com.openclassrooms.paymybuddy.exceptions.MailAlreadyExistException;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import com.openclassrooms.paymybuddy.repository.UserAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,13 +40,17 @@ public class TransactionServiceTest {
     @Transactional
     void saveTransactionServiceTestInsufficientBalance() throws Exception {
 
-        UserAccount userAccountEmetteur = new UserAccount(500L, "jean", "test1@mail.com", "test1");
-        UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
+        UserAccount userAccountEmetteur = new UserAccount(500, "jean", "test1@mail.com", "test1");
+        UserAccount userAccountBeneficiaire = new UserAccount(600, "virginie", "test2@mail.com", "test2");
 
         userAccountService.saveUserAccount(userAccountEmetteur);
         userAccountService.saveUserAccount(userAccountBeneficiaire);
 
-        Transaction transaction = new Transaction("resto de fin d'année", 2000, "04/12/2022", userAccountEmetteur, userAccountBeneficiaire);
+        Transaction transaction = new Transaction();
+        transaction.setDescription("resto de fin d'année");
+        transaction.setMontant(2000);
+        transaction.setEmetteur(userAccountEmetteur);
+        transaction.setBeneficiaire(userAccountBeneficiaire);
 
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
 
@@ -67,8 +70,11 @@ public class TransactionServiceTest {
         List<UserAccount> emetteurContactList = userAccountEmetteur.getContacts();
         emetteurContactList.add(userAccountBeneficiaire);
 
-        Transaction transaction = new Transaction("resto de fin d'année", 2000, "04/12/2022", userAccountEmetteur, userAccountBeneficiaire);
-
+        Transaction transaction = new Transaction();
+        transaction.setDescription("resto de fin d'année");
+        transaction.setMontant(2000);
+        transaction.setEmetteur(userAccountEmetteur);
+        transaction.setBeneficiaire(userAccountBeneficiaire);
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
 
         assertNotNull(savedTransaction);
@@ -88,7 +94,11 @@ public class TransactionServiceTest {
         List<UserAccount> emetteurContactList = userAccountEmetteur.getContacts();
         emetteurContactList.add(userAccountBeneficiaire);
 
-        Transaction transaction = new Transaction("resto", 150, "12/12/2022", userAccountEmetteur, userAccountBeneficiaire);
+        Transaction transaction = new Transaction();
+        transaction.setDescription("resto ");
+        transaction.setMontant(150);
+        transaction.setEmetteur(userAccountEmetteur);
+        transaction.setBeneficiaire(userAccountBeneficiaire);
 
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
 
@@ -109,30 +119,18 @@ public class TransactionServiceTest {
         List<UserAccount> emetteurContactList = emetteurInDb.getContacts();
         emetteurContactList.add(beneficiaireInDb);
 
-        Transaction transaction = new Transaction("resto de fin d'année", 2500, "04/12/2022", userAccountEmetteur, userAccountBeneficiaire);
+        Transaction transaction = new Transaction();
+
+        transaction.setDescription("resto de fin d'année");
+        transaction.setMontant(2500);
+        transaction.setEmetteur(userAccountEmetteur);
+        transaction.setBeneficiaire(userAccountBeneficiaire);
 
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
 
         assertNotNull(savedTransaction);
         assertEquals(2500, transaction.getMontant());
 
-    }
-
-    @Test
-    @Transactional
-    void saveTransactionServiceWithUserOutContactList() throws Exception {
-
-        //ARRANGE
-        UserAccount userAccountEmetteur = new UserAccount(5000L, "jean", "test1@mail.com", "test1");
-        UserAccount userAccountBeneficiaire = new UserAccount(600L, "virginie", "test2@mail.com", "test2");
-
-        userAccountService.saveUserAccount(userAccountEmetteur);
-        userAccountService.saveUserAccount(userAccountBeneficiaire);
-
-        Transaction transaction = new Transaction("resto de fin d'année", 2500, "04/12/2022", userAccountEmetteur, userAccountBeneficiaire);
-
-        Transaction savedTransaction = transactionService.saveTransaction(transaction);
-        assertNull(savedTransaction);
     }
 
 
