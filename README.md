@@ -3,47 +3,66 @@
 
 
 # Modèle physique de données
-![image](https://user-images.githubusercontent.com/46260168/214054853-8350249e-2d57-4462-a282-a9d6869509b9.png)
+![image](https://user-images.githubusercontent.com/46260168/216383134-ce05494f-c8d0-4f42-9567-3d70a93a0e51.png)
 
 # SCRIPT SQL
 
-create table if not exists transaction
+drop database if exists paymyuddy;
+create database paymyuddy;
+use paymyuddy;
+CREATE TABLE user_account
 (
-    transaction_id int auto_increment
-        primary key,
-    date           varchar(255) null,
-    description    varchar(255) null,
-    frais          double       null,
-    montant        int          null,
-    beneficiaire   int          null,
-    emetteur       int          null
+    user_account_id INT          NOT NULL,
+    solde           DOUBLE       NOT NULL,
+    name            VARCHAR(255) NOT NULL,
+    e_mail          VARCHAR(255) NOT NULL,
+    password        VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_user_account PRIMARY KEY (user_account_id)
 );
 
-create table if not exists transfert
+CREATE TABLE user_contacts
 (
-    transfert_id                 int auto_increment
-        primary key,
-    iban                         varchar(255) null,
-    date                         varchar(255) null,
-    montant                      int          null,
-    transfert_type               int          null,
-    user_account_user_account_id int          null
+    user_account_id INT NOT NULL,
+    user_contact_id INT NOT NULL
 );
 
+ALTER TABLE user_account
+    ADD CONSTRAINT uc_user_account_email UNIQUE (e_mail);
 
-create table if not exists user_account
+ALTER TABLE user_contacts
+    ADD CONSTRAINT fk_usecon_on_user_account FOREIGN KEY (user_account_id) REFERENCES user_account (user_account_id);
+
+ALTER TABLE user_contacts
+    ADD CONSTRAINT fk_usecon_on_user_contact FOREIGN KEY (user_contact_id) REFERENCES user_account (user_account_id);
+    
+CREATE TABLE transaction
 (
-    user_account_id int auto_increment
-        primary key,
-    e_mail          varchar(255) null,
-    name            varchar(255) null,
-    password        varchar(255) null,
-    solde           bigint       null
+    transaction_id INT          NOT NULL,
+    `description`  VARCHAR(255) NULL,
+    montant        DOUBLE       NOT NULL,
+    frais          DOUBLE       NOT NULL,
+    emetteur       INT          NOT NULL,
+    beneficiaire   INT          NOT NULL,
+    CONSTRAINT pk_transaction PRIMARY KEY (transaction_id)
 );
 
-create table if not exists user_contacts
+ALTER TABLE transaction
+    ADD CONSTRAINT FK_TRANSACTION_ON_BENEFICIAIRE FOREIGN KEY (beneficiaire) REFERENCES user_account (user_account_id);
+
+ALTER TABLE transaction
+    ADD CONSTRAINT FK_TRANSACTION_ON_EMETTEUR FOREIGN KEY (emetteur) REFERENCES user_account (user_account_id);
+
+CREATE TABLE transfert
 (
-    user_account_id int not null,
-    user_contact_id int not null
+    transfert_id                 INT          NOT NULL,
+    transfert_type               INT          NOT NULL,
+    montant                      DOUBLE       NOT NULL,
+    iban                         VARCHAR(255) NOT NULL,
+    user_account_user_account_id INT          NULL,
+    CONSTRAINT pk_transfert PRIMARY KEY (transfert_id)
 );
+
+ALTER TABLE transfert
+    ADD CONSTRAINT FK_TRANSFERT_ON_USERACCOUNT_USERACCOUNT FOREIGN KEY (user_account_user_account_id) REFERENCES user_account (user_account_id);
+
 
