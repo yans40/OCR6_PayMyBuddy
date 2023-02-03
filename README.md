@@ -7,12 +7,12 @@
 
 # SCRIPT SQL
 
-drop database if exists paymyuddy;
-create database paymyuddy;
-use paymyuddy;
+drop database if exists payMyBuddyApp;
+create database payMyBuddyApp;
+use payMyBuddyApp;
 CREATE TABLE user_account
 (
-    user_account_id INT          NOT NULL,
+    user_account_id INT          NOT NULL auto_increment,
     solde           DOUBLE       NOT NULL,
     name            VARCHAR(255) NOT NULL,
     e_mail          VARCHAR(255) NOT NULL,
@@ -37,7 +37,7 @@ ALTER TABLE user_contacts
     
 CREATE TABLE transaction
 (
-    transaction_id INT          NOT NULL,
+    transaction_id INT          NOT NULL auto_increment,
     `description`  VARCHAR(255) NULL,
     montant        DOUBLE       NOT NULL,
     frais          DOUBLE       NOT NULL,
@@ -54,7 +54,7 @@ ALTER TABLE transaction
 
 CREATE TABLE transfert
 (
-    transfert_id                 INT          NOT NULL,
+    transfert_id                 INT          NOT NULL auto_increment,
     transfert_type               INT          NOT NULL,
     montant                      DOUBLE       NOT NULL,
     iban                         VARCHAR(255) NOT NULL,
@@ -65,4 +65,9 @@ CREATE TABLE transfert
 ALTER TABLE transfert
     ADD CONSTRAINT FK_TRANSFERT_ON_USERACCOUNT_USERACCOUNT FOREIGN KEY (user_account_user_account_id) REFERENCES user_account (user_account_id);
 
+insert into user_account (e_mail, name, password, solde) values ("max@test.com", "max", "azerty", 0 );
+insert into user_account (e_mail, name, password, solde) values ("jeanne@test.com", "jeanne", "qwerty", 0);
+insert into user_account (e_mail, name, password, solde) values ("laurent@test.com", "laurent", "azerty", 0)
+    
+    
 
