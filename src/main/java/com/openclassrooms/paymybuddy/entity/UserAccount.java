@@ -1,7 +1,6 @@
 package com.openclassrooms.paymybuddy.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.ArrayList;

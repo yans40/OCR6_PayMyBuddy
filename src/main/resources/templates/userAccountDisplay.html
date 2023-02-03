@@ -71,7 +71,7 @@
                 <input type="text" th:field="*{description}" required minlength="2" maxlength="100" class="form-control" placeholder="description" aria-label="montant">
             </div>
             <div class="col">
-                <input type="text" th:field="*{montant}" class="form-control" placeholder="0 €" aria-label="montant">
+                <input type="number" min="1" th:field="*{montant}" class="form-control" placeholder="0 €" aria-label="montant">
             </div>
             <div class="col">
                 <input class="btn btn-success" type="submit" value="Pay" style="width: 60%">
